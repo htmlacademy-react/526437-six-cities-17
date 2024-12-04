@@ -6,10 +6,9 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const CARDS_COUNTER:number = 6;
 
 root.render(
   <React.StrictMode>
-    <App counter={CARDS_COUNTER} />
+    <App />
   </React.StrictMode>
 );

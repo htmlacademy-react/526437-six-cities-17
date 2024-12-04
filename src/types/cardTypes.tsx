@@ -1,7 +1,5 @@
 
-export type TCardsCounter = {
-    counter: number;
-}
+
 export type TCard = {
     imageUrl: string;
     premium: boolean;
@@ -13,5 +11,6 @@ export type TCard = {
     description: string;
     navToOffer: string;
     id: string;
+    place: string;
     handleMouseMove? :(event: MouseEvent) => void;
 }
