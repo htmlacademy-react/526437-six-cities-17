@@ -7,12 +7,12 @@ type TFavorites = {
 }
 export default function Favorites() {
   const x = (f: TCard[]) => {
-    const y = f.reduce((acc: TFavorites, val: TCard) => {
-      if(!acc[val.place]){
-        acc[val.place] = [];
-        acc[val.place].push(val);
+    const y = f.reduce((acc: TFavorites, val: TCard): TFavorites => {
+      const co:string = val?.place ;
+      if(!acc[co]){
+        acc[co] = [val];
       }else{
-        acc[val.place].push(val);
+        acc[co].push(val);
       }
       return acc;
     }, {});
