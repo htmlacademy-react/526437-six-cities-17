@@ -1,20 +1,30 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom/client';
-import CardComponent from '../../components/CardComponent';
-import { TCardsCounter } from '../../types/cardTypes';
 
-export default function IndexPage({counter}: TCardsCounter) {
-  const counterArray: number[] = new Array<number>(counter).fill(1).map((x, i)=> x + i);
+import { useState } from 'react';
+import { TCard } from '../../types/cardTypes';
+import CardsList from '../../components/CardsList';
+
+export default function IndexPage(props: {cardArray: TCard[]}) {
+  const {cardArray} = props;
+
+
+  const [activeCard, setActiveCard] = useState(null);
+  const handleMouseMove = (event: MouseEvent) => {
+    const x:EventTarget | null = event.currentTarget;
+    if(x && 'id' in x){
+      setActiveCard(x.id);
+    }
+  };
   return (
     <div className="page page--gray page--main">
       <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
+        <h1 className="visually-hidden">Cities </h1>
+        {activeCard}
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
                 <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
+                  <span>Paris </span>
                 </a>
               </li>
               <li className="locations__item">
@@ -65,19 +75,7 @@ export default function IndexPage({counter}: TCardsCounter) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {/*
-                image
-                rating
-                premium
-                type
-                descript
-
-                */}
-                {counterArray.map((index) => <CardComponent key={index} />)}
-
-
-              </div>
+              <CardsList cardArray={cardArray} handleMouseMove={handleMouseMove}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>

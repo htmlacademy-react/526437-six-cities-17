@@ -3,7 +3,6 @@ export enum AppRouter {
     Favorites='favorites',
     Login = '/login',
     Offer = 'offer/:id',
-    // OfferId = 'offer-id/:id'
 }
 
 
