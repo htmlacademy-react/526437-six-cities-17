@@ -12,5 +12,5 @@ export type TCard = {
     navToOffer: string;
     id: string;
     place: string;
-    handleMouseMove? :never;
+    handleMouseMove? :(event: MouseEvent) => void;
 }
