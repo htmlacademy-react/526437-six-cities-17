@@ -4,15 +4,12 @@ import { TCard } from '../../types/cardTypes';
 import CardsList from '../../components/CardsList';
 
 export default function IndexPage(props: {cardArray: TCard[]}) {
+
   const {cardArray} = props;
 
-
-  const [activeCard, setActiveCard] = useState(null);
-  const handleMouseMove = (event: MouseEvent) => {
-    const x:EventTarget | null = event.currentTarget;
-    if(x && 'id' in x){
-      setActiveCard(x.id);
-    }
+  const [activeCard, setActiveCard] = useState('');
+  const handleMouseMove = (value: string) => {
+    setActiveCard(value);
   };
   return (
     <div className="page page--gray page--main">

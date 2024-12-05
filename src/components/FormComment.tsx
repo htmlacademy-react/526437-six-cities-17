@@ -2,22 +2,22 @@ import { useState } from 'react';
 
 export default function FormComment(){
 
-  const [Form, SetForm] = useState({
+  const [form, setForm] = useState({
     rating: '0',
     comment: ''
   });
 
-  const [AbleButton, SetAbleButton] = useState(false);
+  const [ableButton, setableButton] = useState(false);
   const checkDisabled = () =>{
-    if(Form.rating && Form.comment.length >= 50){
-      SetAbleButton(true);
+    if(form.rating && form.comment.length >= 50){
+      setableButton(true);
     }else{
-      SetAbleButton(false);
+      setableButton(false);
     }
   };
   const handlerCommentForm = (event: React.ChangeEvent<HTMLElement>) => {
     const {value} = event.currentTarget as never;
-    SetForm({ ...Form,
+    setForm({ ...form,
       comment: value
     });
     checkDisabled();
@@ -25,8 +25,8 @@ export default function FormComment(){
 
   const arCor = [5,4,3,2,1];
   const clickRating = (ev: React.FormEvent<HTMLInputElement>) => {
-    SetForm({
-      ...Form,
+    setForm({
+      ...form,
       rating : ev.currentTarget.value});
     checkDisabled();
   };
@@ -50,7 +50,7 @@ export default function FormComment(){
         <p className="reviews__help">
                                             To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!AbleButton}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!ableButton}>Submit</button>
       </div>
     </form>
   );

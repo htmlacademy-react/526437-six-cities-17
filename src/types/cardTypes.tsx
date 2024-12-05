@@ -1,5 +1,4 @@
 
-
 export type TCard = {
     imageUrl: string;
     premium: boolean;
@@ -12,5 +11,4 @@ export type TCard = {
     navToOffer: string;
     id: string;
     place: string;
-    handleMouseMove? :(event: MouseEvent) => void;
 }
