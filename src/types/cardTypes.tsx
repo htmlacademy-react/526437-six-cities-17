@@ -11,4 +11,6 @@ export type TCard = {
     navToOffer: string;
     id: string;
     place: string;
+    lat?: number;
+    lng?: number;
 }

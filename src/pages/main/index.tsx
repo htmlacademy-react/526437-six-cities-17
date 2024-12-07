@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { TCard } from '../../types/cardTypes';
 import CardsList from '../../components/CardsList';
+import Map from '../../components/Map';
+import {CITY, POINTS} from '../../mocks/city';
 
 export default function IndexPage(props: {cardArray: TCard[]}) {
 
@@ -57,7 +59,7 @@ export default function IndexPage(props: {cardArray: TCard[]}) {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">312 places to stay in Amsterdam</b>
-              <form className="places__sorting" action="#" method="get">
+              {/* <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
                   Popular
@@ -71,11 +73,12 @@ export default function IndexPage(props: {cardArray: TCard[]}) {
                   <li className="places__option" tabIndex={0}>Price: high to low</li>
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
-              </form>
+              </form> */}
               <CardsList cardArray={cardArray} handleMouseMove={handleMouseMove}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={CITY} points={POINTS}/>
+
             </div>
           </div>
         </div>
