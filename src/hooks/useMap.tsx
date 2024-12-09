@@ -2,27 +2,30 @@
 import {useEffect, useState, useRef} from 'react';
 import leaflet from 'leaflet';
 
+
+type TPoints = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+}
 type TCity = {
-    title: string;
-    lat: number;
-    lng: number;
-    zoom: number;
-  };
+name: string;
+location: TPoints;
+}
 
 
 export default function useMap(mapRef: React.MutableRefObject<HTMLInputElement | null> , city: TCity) {
-
   const [map, setMap] = useState<null | leaflet.Map>(null);
   const isRenderedRef = useRef(false);
-
+  console.log(city);
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: city.lat,
-          lng: city.lng,
+          lat: city?.location?.latitude,
+          lng: city?.location?.longitude,
         },
-        zoom: city.zoom,
+        zoom: city?.location?.zoom,
       });
 
       leaflet

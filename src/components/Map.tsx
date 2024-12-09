@@ -6,18 +6,20 @@ import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../constant';
 import { useEffect } from 'react';
 
 type TPoints = {
-    title: string;
-    lat: number;
-    lng: number;
-}
-type TCity = TPoints & {
+    latitude: number;
+    longitude: number;
     zoom: number;
-  };
+}
+type TCity = {
+  name: string;
+  location: TPoints;
+}
   type TProps = {
     city: TCity;
     points: TPoints[];
 }
 export default function Map({city, points}: TProps) {
+  console.log(city);
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -38,8 +40,8 @@ export default function Map({city, points}: TProps) {
       points.forEach((point) => {
         leaflet
           .marker({
-            lat: point.lat,
-            lng: point.lng,
+            lat: point.latitude,
+            lng: point.longitude,
           }, {
             icon: defaultCustomIcon,
           })

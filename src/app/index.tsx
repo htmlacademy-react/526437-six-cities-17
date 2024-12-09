@@ -8,7 +8,8 @@ import {AppRouter, PrivateStatus} from '../constant';
 import PrivateRoute from '../private-route';
 import DefaultLayout from '../layouts/default-layout';
 import { HelmetProvider } from 'react-helmet-async';
-import cardArray from '../mocks/offers';
+// import cardArray from '../mocks/offers';
+import {mockOffers} from '../mocks/offers';
 
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -20,7 +21,8 @@ export default function App() {
         <Routes>
           <Route path={AppRouter.Root} element={<DefaultLayout/>}>
             <Route path={AppRouter.Map} element={<MapPage/>} />
-            <Route index element={<IndexPage cardArray={cardArray}/>} />
+            <Route index element={<IndexPage offers={mockOffers}/>} />
+            {/* <Route index element={<IndexPage cardArray={cardArray}/>} /> */}
             <Route path={AppRouter.Favorites } element={
               <PrivateRoute status={PrivateStatus.Auth}>
                 <Favorites/>
