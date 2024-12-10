@@ -4,14 +4,14 @@ import CardComponent from '../components/CardComponent';
 
 type TProps = {
   offers: TOffer[];
-  handleMouseMove: (id: string) => void;
+  onMouseMove: (id: string) => void;
 }
 
 export default function CardsList(props: TProps){
-  const {offers, handleMouseMove} = props;
+  const {offers, onMouseMove} = props;
   return (
     <div className="cities__places-list places__list tabs__content" >
-      {offers.map((item) => <CardComponent card={item} handleMouseMove={handleMouseMove} key={item.id} />)}
+      {offers.map((item) => <CardComponent card={item} onMouseMove={onMouseMove} key={item.id} />)}
     </div>
   );
 }

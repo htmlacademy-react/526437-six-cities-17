@@ -15,6 +15,7 @@ export type TCard = {
     lng?: number;
 }
 export type TLocation = {
+    id?: string;
     latitude: number;
     longitude: number;
     zoom: number;

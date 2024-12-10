@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { TOffer } from '../../types/cardTypes';
 import CardsList from '../../components/CardsList';
 import Map from '../../components/Map';
-import {CITY, POINTS} from '../../mocks/city';
+import {CITY, points} from '../../mocks/city';
 
 export default function IndexPage(props: {offers: TOffer[]}) {
 
@@ -13,11 +13,11 @@ export default function IndexPage(props: {offers: TOffer[]}) {
   const handleMouseMove = (value: string) => {
     setActiveCard(value);
   };
+
   return (
     <div className="page page--gray page--main">
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities </h1>
-        {activeCard}
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
@@ -60,10 +60,10 @@ export default function IndexPage(props: {offers: TOffer[]}) {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">312 places to stay in Amsterdam</b>
 
-              <CardsList offers={offers} handleMouseMove={handleMouseMove}/>
+              <CardsList offers={offers} onMouseMove={handleMouseMove}/>
             </section>
             <div className="cities__right-section">
-              <Map city={CITY} points={POINTS}/>
+              <Map city={CITY} points={points} activeCard={activeCard}/>
             </div>
           </div>
         </div>

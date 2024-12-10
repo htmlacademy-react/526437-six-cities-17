@@ -5,7 +5,7 @@ import { TOffer} from '../types/cardTypes';
 
 type TProps = {
   card: TOffer;
-  handleMouseMove: (id: string) => void;
+  onMouseMove: (id: string) => void;
 }
 
 
@@ -25,7 +25,7 @@ export default function CardComponent(props: TProps) {
 
 
   return (
-    <article className="cities__card place-card" onMouseEnter={() => props.handleMouseMove(id)}
+    <article className="cities__card place-card" onMouseEnter={() => props.onMouseMove(id)}
       id={id}
     >
       {isPremium ?
@@ -33,7 +33,7 @@ export default function CardComponent(props: TProps) {
           <span>Premium</span>
         </div> : null}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`offer/${id}`}>{previewImage}
+        <Link to={`offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
         </Link>
       </div>

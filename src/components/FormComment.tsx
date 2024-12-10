@@ -7,12 +7,12 @@ export default function FormComment(){
     comment: ''
   });
 
-  const [ableButton, setableButton] = useState(false);
+  const [isAbleButton, setAbleButton] = useState(false);
   const checkDisabled = () =>{
     if(form.rating && form.comment.length >= 50){
-      setableButton(true);
+      setAbleButton(true);
     }else{
-      setableButton(false);
+      setAbleButton(false);
     }
   };
   const handlerCommentForm = (event: React.ChangeEvent<HTMLElement>) => {
@@ -50,7 +50,7 @@ export default function FormComment(){
         <p className="reviews__help">
                                             To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!ableButton}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!isAbleButton}>Submit</button>
       </div>
     </form>
   );

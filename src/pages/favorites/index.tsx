@@ -1,4 +1,3 @@
-// import cardArray from '../../mocks/offers';
 import {mockOffers} from '../../mocks/offers';
 import { TOffer } from '../../types/cardTypes';
 import { Link } from 'react-router-dom';
