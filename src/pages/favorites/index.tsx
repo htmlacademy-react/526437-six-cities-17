@@ -1,5 +1,5 @@
 import {mockOffers} from '../../mocks/offers';
-import { TOffer } from '../../types/cardTypes';
+import { TOffer } from '../../types/offerTypes';
 import { Link } from 'react-router-dom';
 
 type TFavorites = {

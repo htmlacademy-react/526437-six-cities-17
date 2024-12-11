@@ -1,10 +1,11 @@
 
 import { Link } from 'react-router-dom';
-import { TOffer} from '../types/cardTypes';
+import { TOffer} from '../types/offerTypes';
 
 
 type TProps = {
   card: TOffer;
+  cardType: string;
   onMouseMove: (id: string) => void;
 }
 
@@ -20,12 +21,13 @@ export default function CardComponent(props: TProps) {
     title,
     id,
   } = props.card;
+  const {cardType} = props;
 
   const ratingWidth = 100 / 5 * rating;
 
 
   return (
-    <article className="cities__card place-card" onMouseEnter={() => props.onMouseMove(id)}
+    <article className={`${cardType}__card place__card`} onMouseEnter={() => props.onMouseMove(id)}
       id={id}
     >
       {isPremium ?
