@@ -2,25 +2,16 @@ import {useRef} from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../hooks/useMap';
+import { TCity, TLocation } from '../types/cityTypes';
 import { URL_MARKER_DEFAULT,
   URL_MARKER_CURRENT
 } from '../constant';
 import { useEffect } from 'react';
 
-type TPoints = {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-    id?: string;
-}
-type TCity = {
-  name: string;
-  location: TPoints;
-}
-  type TProps = {
-    city: TCity;
-    points: TPoints[];
-    activeCard: string;
+type TProps = {
+  city: TCity;
+  points: TLocation[];
+  activeCard?: string;
 }
 export default function Map({city, points, activeCard}: TProps) {
   const mapRef = useRef(null);

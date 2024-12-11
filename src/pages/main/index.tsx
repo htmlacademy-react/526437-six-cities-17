@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { TOffer } from '../../types/cardTypes';
+import { TOffer } from '../../types/offerTypes';
 import CardsList from '../../components/CardsList';
 import Map from '../../components/Map';
 import {CITY, points} from '../../mocks/city';
@@ -59,8 +59,9 @@ export default function IndexPage(props: {offers: TOffer[]}) {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">312 places to stay in Amsterdam</b>
-
-              <CardsList offers={offers} onMouseMove={handleMouseMove}/>
+              <div className="cities__places-list places__list tabs__content" >
+                <CardsList cardType="cities" offers={offers} onMouseMove={handleMouseMove}/>
+              </div>
             </section>
             <div className="cities__right-section">
               <Map city={CITY} points={points} activeCard={activeCard}/>
