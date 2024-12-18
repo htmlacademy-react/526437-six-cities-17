@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import {TOffer} from '../../types/offerTypes';
+import {TCity} from '../../types/cityTypes';
 
 const Action = {
   SET_OFFERS: 'SET_OFFERS',
@@ -10,10 +11,10 @@ const Action = {
 export const setOffersAction = createAction(Action.SET_OFFERS, (value: TOffer[]) => ({
   payload: value
 }));
-export const setCityesAction = createAction(Action.SET_CITYES, (value: string[]) => ({
+export const setCityesAction = createAction(Action.SET_CITYES, (value: TCity[]) => ({
   payload: value
 }));
-export const setSelectedCityAction = createAction(Action.SET_SELECTED_CITY, (value: string) => ({
+export const setSelectedCityAction = createAction(Action.SET_SELECTED_CITY, (value: TCity) => ({
   payload: value
 }));
 

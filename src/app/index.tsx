@@ -11,21 +11,33 @@ import {GetOffers} from '../api/cities';
 import { TOffer } from '../types/offerTypes';
 import {store} from '../store';
 import {setOffersAction, setCityesAction} from '../store/actions';
-
+import UseConvertCitiesId from '../hooks/useConvertCitiesId';
+// const x:TOffer[] = useConvertCitiesId(action.payload);
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
+import { TCity } from '../types/cityTypes';
 
 
 export default function App() {
-  // let cityes: string[] = [];
-  const setCities = (val: TOffer[]) =>
-    val.map((x) => x.city.name)
+  const setCities = (val: TOffer[]) =>{
+    const ch = val.map((x) => x.city.name)
       .filter((value, index, array) =>
         array.indexOf(value) === index);
+    const ar:TCity[] = [];
+    ch.forEach((value)=>{
+      const item = val.find((x) => x.city.name === value);
+      if(item){
+        ar.push(item.city);
+      }
+    });
+    return ar;
+  };
+
 
   const getOffers = async(): Promise<void> => {
-    const offers: TOffer[] = await GetOffers();
+    const preOffers: TOffer[] = await GetOffers();
+    const offers = UseConvertCitiesId(preOffers);
     const cityes = setCities(offers);
     store.dispatch(setOffersAction(offers));
     store.dispatch(setCityesAction(cityes));
