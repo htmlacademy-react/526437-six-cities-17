@@ -7,18 +7,41 @@ import {AppRouter, PrivateStatus} from '../constant';
 import PrivateRoute from '../private-route';
 import DefaultLayout from '../layouts/default-layout';
 import { HelmetProvider } from 'react-helmet-async';
-import {mockOffers} from '../mocks/offers';
+import {GetOffers} from '../api/cities';
+import { TOffer } from '../types/offerTypes';
+import {store} from '../store';
+import {setOffersAction, setCityesAction} from '../store/actions';
 
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+
 
 export default function App() {
+  // let cityes: string[] = [];
+  const setCities = (val: TOffer[]) =>
+    val.map((x) => x.city.name)
+      .filter((value, index, array) =>
+        array.indexOf(value) === index);
+
+  const getOffers = async(): Promise<void> => {
+    const offers: TOffer[] = await GetOffers();
+    const cityes = setCities(offers);
+    store.dispatch(setOffersAction(offers));
+    store.dispatch(setCityesAction(cityes));
+  };
+  useEffect(()=> {
+    getOffers();
+  },[]);
+
+
   return (
     <BrowserRouter>
       <HelmetProvider>
         <Routes>
           <Route path={AppRouter.Root} element={<DefaultLayout/>}>
-            <Route index element={<IndexPage offers={mockOffers}/>} />
+
+            <Route index element={<IndexPage />} />
             <Route path={AppRouter.Favorites } element={
               <PrivateRoute status={PrivateStatus.Auth}>
                 <Favorites/>
