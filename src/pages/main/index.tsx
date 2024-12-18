@@ -3,18 +3,19 @@ import { useState } from 'react';
 import { RootState } from '../../types/rootStateTypes';
 import CardsList from '../../components/CardsList';
 import Map from '../../components/Map';
-import {CITY, points} from '../../mocks/city';
 import CityList from '../../components/CityList';
 import { store } from '../../store';
 import { useSelector } from 'react-redux';
+import { TCity } from '../../types/cityTypes';
 
 export default function IndexPage() {
 
-  const selectedCity: string = useSelector((state: RootState) => state.selectedCity);
+  const selectedCity: TCity = useSelector((state: RootState) => state.selectedCity);
 
   const x = useSelector((state: RootState) => state.offers);
 
-  const offers = x.filter((y) => y.city.name === selectedCity);
+  const offers = x.filter((y) => y.city.name === selectedCity.name);
+  const offersPoints = offers.map((offer) => offer.location);
   const cityes = store.getState().cityes;
 
   const [activeCard, setActiveCard] = useState('');
@@ -22,6 +23,7 @@ export default function IndexPage() {
     setActiveCard(value);
   };
 
+  const activeCity = useSelector((state: RootState) => state.selectedCity);
 
   return (
     <div className="page page--gray page--main">
@@ -36,13 +38,13 @@ export default function IndexPage() {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in {selectedCity.name}</b>
               <div className="cities__places-list places__list tabs__content" >
                 <CardsList cardType="cities" offers={offers} onMouseMove={handleMouseMove}/>
               </div>
             </section>
             <div className="cities__right-section">
-              <Map city={CITY} points={points} activeCard={activeCard}/>
+              <Map city={activeCity} points={offersPoints} activeCard={activeCard}/>
             </div>
           </div>
         </div>

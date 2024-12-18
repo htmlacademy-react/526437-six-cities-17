@@ -9,13 +9,20 @@ import {TCity} from '../../types/cityTypes';
 
 interface State {
     offers: TOffer[];
-    selectedCity: TCity | string;
-    cityes: string[];
+    selectedCity: TCity;
+    cityes: TCity[];
 }
 
 export const offersState:State = {
   offers: [],
-  selectedCity: 'Paris',
+  selectedCity: {
+    name:'Paris',
+    location: {
+      latitude:48.85661,
+      longitude:2.351499,
+      zoom:13,
+    }
+  },
   cityes: []
 };
 

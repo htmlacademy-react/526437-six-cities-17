@@ -2,13 +2,19 @@
 import {useEffect, useState, useRef} from 'react';
 import leaflet from 'leaflet';
 import { TCity } from '../types/cityTypes';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../types/rootStateTypes';
 
 
 export default function useMap(mapRef: React.MutableRefObject<HTMLInputElement | null> , city: TCity) {
   const [map, setMap] = useState<null | leaflet.Map>(null);
+  // const activeCity = useSelector((state: RootState) => state.selectedCity);
   const isRenderedRef = useRef(false);
   useEffect(() => {
+
+    console.log(isRenderedRef.current);
     if (mapRef.current !== null && !isRenderedRef.current) {
+      console.log('asdfasdfasdfa');
       const instance = leaflet.map(mapRef.current, {
         center: {
           lat: city?.location?.latitude,

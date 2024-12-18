@@ -3,6 +3,6 @@ import {TCity} from './cityTypes';
 
 export type RootState = {
     offers: TOffer[];
-  selectedCity: string;
-  cityes: TCity[];
+    selectedCity: TCity;
+    cityes: TCity[];
 }
