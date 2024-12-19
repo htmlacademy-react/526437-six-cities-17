@@ -4,7 +4,7 @@ import { updateStore, offersState } from './reducers';
 export const store = configureStore(
   {
     reducer: updateStore,
-    preloadedState:{ ...offersState}
+    preloadedState: offersState
   }
 );
 

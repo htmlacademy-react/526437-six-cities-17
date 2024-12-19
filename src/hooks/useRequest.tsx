@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 export default function useRequest(){
-  const baseURL: string = 'https://16.design.htmlacademy.pro';
+  const url = import.meta.env.VITE_UPLOAD_URL;
+  const baseURL = url;
 
   const axiosInstance = axios.create({baseURL});
 
