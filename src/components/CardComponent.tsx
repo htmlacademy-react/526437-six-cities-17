@@ -1,7 +1,7 @@
 
 import { Link } from 'react-router-dom';
 import { TOffer} from '../types/offerTypes';
-
+import CSS from 'csstype';
 
 type TProps = {
   card: TOffer;
@@ -11,6 +11,9 @@ type TProps = {
 
 
 export default function CardComponent(props: TProps) {
+  const placeCardStyle: CSS.Properties = {
+    position: 'relative'
+  };
 
   const {
     previewImage,
@@ -27,7 +30,7 @@ export default function CardComponent(props: TProps) {
 
 
   return (
-    <article className={`${cardType}__card place__card`} onMouseEnter={() => props.onMouseMove(id)}
+    <article style={placeCardStyle} className={`${cardType}__card place__card`} onMouseEnter={() => props.onMouseMove(id)}
       id={id}
     >
       {isPremium ?
@@ -54,7 +57,6 @@ export default function CardComponent(props: TProps) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            {/* rating by procents in next span from mocks or api */}
             <span style={{ width: `${ratingWidth}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
@@ -67,3 +69,4 @@ export default function CardComponent(props: TProps) {
     </article>
   );
 }
+

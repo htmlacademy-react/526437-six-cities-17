@@ -7,12 +7,12 @@ export interface TOffer {
     title: string;
     type: string;
     price: number;
+    previewImage?: string;
     city: TCity;
     location: TLocation;
-    isFavorite: boolean;
+    isFavorite?: boolean;
     isPremium: boolean;
     rating: number;
-    previewImage?: string;
 }
 export interface TOfferDetails extends TOffer {
     description: string;
