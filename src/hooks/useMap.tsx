@@ -8,8 +8,6 @@ export default function useMap(mapRef: React.MutableRefObject<HTMLInputElement |
   const [map, setMap] = useState<null | leaflet.Map>(null);
   const isRenderedRef = useRef(false);
   useEffect(() => {
-
-    console.log(isRenderedRef.current);
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(mapRef.current, {
         center: {
