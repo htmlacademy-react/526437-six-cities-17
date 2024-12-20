@@ -30,6 +30,11 @@ export default function useMap(mapRef: React.MutableRefObject<HTMLInputElement |
       isRenderedRef.current = true;
     }
   }, [mapRef, city]);
+  useEffect(() => {
+    if (map) {
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+    }
+  }, [city.location.latitude, city.location.longitude, city.location.zoom, map]);
 
   return map;
 }

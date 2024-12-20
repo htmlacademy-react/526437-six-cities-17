@@ -15,6 +15,7 @@ type TProps = {
 }
 export default function Map({city, points, activeCard}: TProps) {
   const mapRef = useRef(null);
+
   const map = useMap(mapRef, city);
 
   const defaultCustomIcon = leaflet.icon({
