@@ -1,7 +1,7 @@
 import {
   setOffersAction,
   setCityesAction,
-  setSelectedCityAction
+  setSelectedCityAction,
 } from '../actions';
 import {createReducer} from '@reduxjs/toolkit';
 import {TOffer} from '../../types/offerTypes';
@@ -37,6 +37,5 @@ export const updateStore = createReducer(offersState, (builder) => {
     .addCase(setSelectedCityAction, (state, action) => {
       state.selectedCity = action.payload;
     });
-
 });
 
