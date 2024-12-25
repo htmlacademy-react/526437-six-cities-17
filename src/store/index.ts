@@ -1,15 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { updateStore, offersState } from './reducers';
+import { updateStore } from './reducers';
 import createApi from '../services/api';
+
+import { defaultState } from './state';
 // import {testMiddleWare} from '../middleware';
 
 
 const api = createApi();
 
+
 export const store = configureStore(
   {
     reducer: updateStore,
-    preloadedState: offersState,
+    preloadedState: defaultState,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         thunk: {
