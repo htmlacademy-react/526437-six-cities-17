@@ -5,7 +5,8 @@ import {TCity} from '../../types/cityTypes';
 const Action = {
   SET_OFFERS: 'SET_OFFERS',
   SET_CITYES: 'SET_CITYES',
-  SET_SELECTED_CITY: 'SET_SELECTED_CITY'
+  SET_SELECTED_CITY: 'SET_SELECTED_CITY',
+  GET_OFFERS: 'GET_OFFERS'
 };
 
 export const setOffersAction = createAction(Action.SET_OFFERS, (value: TOffer[]) => ({

@@ -1,10 +1,22 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { updateStore, offersState } from './reducers';
+import createApi from '../services/api';
+// import {testMiddleWare} from '../middleware';
+
+
+const api = createApi();
 
 export const store = configureStore(
   {
     reducer: updateStore,
-    preloadedState: offersState
+    preloadedState: offersState,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        thunk: {
+          extraArgument: api,
+        },
+      })
+    // .concat(testMiddleWare),
   }
 );
 
