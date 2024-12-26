@@ -29,21 +29,17 @@ export default function Login() {
   };
 
 
-  const submitLogin = () => {
+  const handleSubmitLoginForm = async() => {
     const path = '/';
-    setTimeout(() => {
-      store.dispatch(fetchLogin(form));
-      const status = store.getState().authorizationStatus;
-      if(status){
-        navigate(path);
-      }
-    }, 1000);
+    await store.dispatch(fetchLogin(form));
+    const status = store.getState().authorizationStatus;
+    if(status){
+      navigate(path);
+    }
 
   };
   return (
     <div className="page page--gray page--login">
-
-
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -57,7 +53,11 @@ export default function Login() {
                 <label className="visually-hidden">Password</label>
                 <input onChange={setPassWord} className="login__input form__input" type="password" name="password" placeholder="Password" required />
               </div>
-              <div onClick={submitLogin} className="login__submit form__submit button">Sign in</div>
+              <div onClick={() => {
+                void handleSubmitLoginForm();
+              }} className="login__submit form__submit button"
+              >Sign in
+              </div>
             </div>
           </section>
           <section className="locations locations--login locations--current">

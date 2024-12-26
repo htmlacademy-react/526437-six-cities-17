@@ -16,8 +16,7 @@ import { RootState } from '../types/rootStateTypes';
 
 
 export default function App() {
-  const authStatus = useSelector((state: RootState) => state.authorizationStatus);
-
+  const authStatus = useSelector((state: RootState) => state.authorizationStatus || false) ;
   useEffect(()=> {
     store.dispatch(fetchOffers());
     store.dispatch(fetchCheckAuth());

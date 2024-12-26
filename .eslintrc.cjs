@@ -18,8 +18,16 @@ module.exports = {
   },
   overrides: [
     {
-      files: [ '*test*' ],
-      rules: { '@typescript-eslint/unbound-method': 'off' }
+      files: ['*test*'],
+      rules: {
+        '@typescript-eslint/unbound-method': 'off',
+        "@typescript-eslint/no-misused-promises": [
+          "error",
+          {
+            "checksVoidReturn": false
+          }
+        ]
+      }
     },
   ],
 }
