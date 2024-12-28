@@ -1,11 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {store} from '../../store';
 import { fetchLogin } from '../../store/actions/apiActions';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 export default function Login() {
 
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const status = store.getState().authorizationStatus;
+  const path = searchParams.get('next');
+
+  useEffect(() => {
+    if (status && path) {
+      navigate({
+        pathname: path,
+      });
+    }
+  }, [status, path, navigate]);
 
   const [form, setForm] = useState({
     email: '',
@@ -30,11 +42,11 @@ export default function Login() {
 
 
   const handleSubmitLoginForm = async() => {
-    const path = '/';
+    const goTo = '/';
     await store.dispatch(fetchLogin(form));
-    const status = store.getState().authorizationStatus;
-    if(status){
-      navigate(path);
+    const authStatus = store.getState().authorizationStatus;
+    if (authStatus){
+      navigate(goTo);
     }
 
   };

@@ -9,17 +9,20 @@ import DefaultLayout from '../layouts/default-layout';
 import { HelmetProvider } from 'react-helmet-async';
 import {store} from '../store';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import {fetchOffers, fetchCheckAuth} from '../store/actions/apiActions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../types/rootStateTypes';
 
 
 export default function App() {
+
   const authStatus = useSelector((state: RootState) => state.authorizationStatus || false) ;
-  useEffect(()=> {
+  const loaded = useRef(false);
+  useEffect(() => {
     store.dispatch(fetchOffers());
     store.dispatch(fetchCheckAuth());
+    loaded.current = true;
   });
 
 
@@ -29,11 +32,12 @@ export default function App() {
         <Routes>
           <Route path={AppRouter.Root} element={<DefaultLayout/>}>
             <Route index element={<IndexPage />} />
-            <Route path={AppRouter.Favorites } element={
-              <PrivateRoute status={authStatus}>
-                <Favorites/>
-              </PrivateRoute>
-            }
+            <Route path={AppRouter.Favorites}
+              element={
+                <PrivateRoute status={authStatus}>
+                  <Favorites/>
+                </PrivateRoute>
+              }
             >
             </Route>
             <Route path={AppRouter.Login } element={<Login/>}/>

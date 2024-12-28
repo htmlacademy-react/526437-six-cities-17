@@ -30,7 +30,6 @@ export const fetchCheckAuth = createAsyncThunk<void, undefined,
   async (_args, {dispatch, extra: api}) => {
     try{
       const token: string | null = window.localStorage.getItem('token');
-
       api.defaults.headers.common['X-Token'] = `${token}` || '';
 
       const {data} = await api.get<TUser>('/six-cities/login');
