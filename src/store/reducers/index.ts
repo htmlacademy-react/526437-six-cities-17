@@ -2,31 +2,13 @@ import {
   setOffersAction,
   setCityesAction,
   setSelectedCityAction,
+  setUserInfo,
+  setAuthStatus
 } from '../actions';
 import {createReducer} from '@reduxjs/toolkit';
-import {TOffer} from '../../types/offerTypes';
-import {TCity} from '../../types/cityTypes';
+import { defaultState } from '../state';
 
-interface State {
-    offers: TOffer[];
-    selectedCity: TCity;
-    cityes: TCity[];
-}
-
-export const offersState:State = {
-  offers: [],
-  selectedCity: {
-    name:'Paris',
-    location: {
-      latitude:48.85661,
-      longitude:2.351499,
-      zoom:13,
-    }
-  },
-  cityes: []
-};
-
-export const updateStore = createReducer(offersState, (builder) => {
+export const updateStore = createReducer(defaultState, (builder) => {
   builder
     .addCase(setOffersAction, (state, action) => {
       state.offers = [...action.payload];
@@ -36,6 +18,12 @@ export const updateStore = createReducer(offersState, (builder) => {
     })
     .addCase(setSelectedCityAction, (state, action) => {
       state.selectedCity = action.payload;
+    })
+    .addCase(setUserInfo, (state, action) => {
+      state.userInfo = action.payload;
+    })
+    .addCase(setAuthStatus, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 
