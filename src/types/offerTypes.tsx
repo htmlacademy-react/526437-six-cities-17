@@ -7,22 +7,18 @@ export interface TOffer {
     title: string;
     type: string;
     price: number;
-    previewImage?: string;
     city: TCity;
     location: TLocation;
     isFavorite?: boolean;
     isPremium: boolean;
     rating: number;
+    previewImage?: string;
 }
 export interface TOfferDetails extends TOffer {
     description: string;
     bedrooms: number;
     goods: string[];
-    host: {
-        name: string;
-        avatarUrl: string;
-        isPro: boolean;
-    };
+    host: TUser;
     images: string[];
     maxAdults: number;
 }
@@ -33,4 +29,5 @@ export type TReviewOffer = {
     comment: string;
     rating: number;
 }
+
 

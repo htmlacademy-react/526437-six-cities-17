@@ -1,17 +1,23 @@
-import {TOffer} from '../../types/offerTypes';
+import {TOffer, TOfferDetails, TReviewOffer} from '../../types/offerTypes';
 import {TCity} from '../../types/cityTypes';
 import {TUser} from '../../types/userTypes';
 
 interface State {
     offers: TOffer[];
+    nearByOffers: TOffer[];
     selectedCity: TCity;
     cityes: TCity[];
     authorizationStatus: boolean;
     userInfo: TUser;
+    currentOffer: TOfferDetails | Record<string, never>;
+    currentOfferComments: TReviewOffer[];
   }
 
 export const defaultState:State = {
   offers: [],
+  nearByOffers: [],
+  currentOffer: {},
+  currentOfferComments:[],
   selectedCity: {
     name:'Paris',
     location: {

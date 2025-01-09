@@ -1,11 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '..';
 import { AxiosInstance } from 'axios';
-import { TOffer } from '../../types/offerTypes';
+import { TOffer, TOfferDetails,TReviewOffer } from '../../types/offerTypes';
 import { TUser } from '../../types/userTypes';
-import { setOffersAction, setCityesAction, setUserInfo, setAuthStatus } from '.';
+import { setOffersAction,
+  setCityesAction,
+  setUserInfo,
+  setAuthStatus,
+  setCurrentOffer,
+  setCurrentOfferReviews,
+  setNearByOffers,
+  setSelectedCityAction,
+  redirectToRoute} from '.';
 import {convertCitiesById} from '../../helpers/convertCitiesById';
 import {setCities} from '../../helpers/setCities';
+import { AppRouter } from '../../constant';
 
 export const fetchOffers = createAsyncThunk<void, undefined,
 {
@@ -56,6 +65,47 @@ export const fetchLogin = createAsyncThunk<void,
     }
     dispatch(setUserInfo(data));
     dispatch(setAuthStatus(true));
+  }
+);
+export const fetchOffer = createAsyncThunk<void,
+{
+  offerId:string;
+},
+{
+  dispatch: AppDispatch; extra: AxiosInstance;
+}>('GET_OFFER',
+  async (_args, {dispatch, extra: api}) => {
+    try{
+      const {data} = await api.get<TOfferDetails>(`/six-cities/offers/${_args.offerId}`);
+      dispatch(setCurrentOffer(data));
+      dispatch(setSelectedCityAction(data.city));
+    }catch (e){
+      dispatch(redirectToRoute(AppRouter.NotFound));
+    }
+  }
+);
+export const fetchComments = createAsyncThunk<void,
+{
+  offerId:string;
+},
+{
+  dispatch: AppDispatch; extra: AxiosInstance;
+}>('GET_OFFER_REVIEWS',
+  async (_args, {dispatch, extra: api}) => {
+    const {data} = await api.get<TReviewOffer[]>(`/six-cities/comments/${_args.offerId}`);
+    dispatch(setCurrentOfferReviews(data));
+  }
+);
+export const fetchNearByOffers = createAsyncThunk<void,
+{
+  offerId:string;
+},
+{
+  dispatch: AppDispatch; extra: AxiosInstance;
+}>('GET_NEAR_BY_OFFERS',
+  async (_args, {dispatch, extra: api}) => {
+    const {data} = await api.get<TOffer[]>(`/six-cities/offers/${_args.offerId}/nearby`);
+    dispatch(setNearByOffers(data));
   }
 );
 
