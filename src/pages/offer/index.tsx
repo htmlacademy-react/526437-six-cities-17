@@ -132,7 +132,7 @@ export default function Offer() {
                   <span className="reviews__amount">{currentOfferReviews.length}</span>
                 </h2>
                 <ReviewList reviewList={currentOfferReviews}/>
-                {isAuth && <FormComment/>}
+                {isAuth && <FormComment offerId={offerId}/>}
               </section>
             </div>
           </div>

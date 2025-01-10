@@ -14,7 +14,8 @@ const Action = {
   SET_CURRENT_OFFER: 'SET_CURRENT_OFFER',
   SET_CURRENT_OFFER_REVIEWS: 'SET_CURRENT_OFFER_REVIEWS',
   SET_NEAR_BY_OFFERS: 'SET_NEAR_BY_OFFERS',
-  REDIRECT: 'REDIRECT'
+  REDIRECT: 'REDIRECT',
+  ADD_COMMENT: 'ADD_COMMENT'
 };
 
 export const setOffersAction = createAction(Action.SET_OFFERS, (value: TOffer[]) => ({
@@ -42,6 +43,9 @@ export const setNearByOffers = createAction(Action.SET_NEAR_BY_OFFERS, (value: T
   payload: value
 }));
 export const redirectToRoute = createAction(Action.REDIRECT, (value: string) => ({
+  payload: value
+}));
+export const addCurrentOfferReview = createAction(Action.ADD_COMMENT, (value: TReviewOffer) => ({
   payload: value
 }));
 

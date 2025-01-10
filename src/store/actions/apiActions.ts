@@ -11,7 +11,8 @@ import { setOffersAction,
   setCurrentOfferReviews,
   setNearByOffers,
   setSelectedCityAction,
-  redirectToRoute} from '.';
+  redirectToRoute,
+  addCurrentOfferReview} from '.';
 import {convertCitiesById} from '../../helpers/convertCitiesById';
 import {setCities} from '../../helpers/setCities';
 import { AppRouter } from '../../constant';
@@ -96,6 +97,7 @@ export const fetchComments = createAsyncThunk<void,
     dispatch(setCurrentOfferReviews(data));
   }
 );
+
 export const fetchNearByOffers = createAsyncThunk<void,
 {
   offerId:string;
@@ -106,6 +108,21 @@ export const fetchNearByOffers = createAsyncThunk<void,
   async (_args, {dispatch, extra: api}) => {
     const {data} = await api.get<TOffer[]>(`/six-cities/offers/${_args.offerId}/nearby`);
     dispatch(setNearByOffers(data));
+  }
+);
+export const postComment = createAsyncThunk<void,
+{
+  offerId:string;
+  comment: string;
+  rating: number;
+},
+{
+  dispatch: AppDispatch; extra: AxiosInstance;
+}>('ADD_COMMENT',
+  async (_args, {dispatch, extra: api}) => {
+    const comment = {comment: _args.comment, rating: _args.rating};
+    const {data} = await api.post<TReviewOffer>(`/six-cities/comments/${_args.offerId}`, comment);
+    dispatch(addCurrentOfferReview(data));
   }
 );
 
