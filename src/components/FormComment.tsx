@@ -1,9 +1,16 @@
 import { useState } from 'react';
+import { postComment } from '../store/actions/apiActions';
+import { store } from '../store';
 
-export default function FormComment(){
+type TProps = {
+  offerId: string;
+}
 
+
+export default function FormComment(props: TProps){
+  const {offerId} = props;
   const [form, setForm] = useState({
-    rating: '0',
+    rating: '',
     comment: ''
   });
 
@@ -30,6 +37,16 @@ export default function FormComment(){
       rating : ev.currentTarget.value});
     checkDisabled();
   };
+  const handlePost = () =>{
+    const args = {
+      offerId: offerId,
+      comment: form.comment,
+      rating: Number(form.rating)
+    };
+    store.dispatch(postComment(args));
+
+  };
+  const css = '.disabled { background-color: grey;}';
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -50,7 +67,12 @@ export default function FormComment(){
         <p className="reviews__help">
                                             To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!isAbleButton}>Submit</button>
+        <div onClick={handlePost}
+          className={`reviews__submit form__submit button ${!isAbleButton ? 'disabled' : ''}`}
+        >
+          <style>{css}</style>
+          Submit
+        </div>
       </div>
     </form>
   );

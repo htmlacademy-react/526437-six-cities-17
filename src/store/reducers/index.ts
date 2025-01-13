@@ -3,7 +3,11 @@ import {
   setCityesAction,
   setSelectedCityAction,
   setUserInfo,
-  setAuthStatus
+  setAuthStatus,
+  setCurrentOffer,
+  setCurrentOfferReviews,
+  setNearByOffers,
+  addCurrentOfferReview
 } from '../actions';
 import {createReducer} from '@reduxjs/toolkit';
 import { defaultState } from '../state';
@@ -24,6 +28,18 @@ export const updateStore = createReducer(defaultState, (builder) => {
     })
     .addCase(setAuthStatus, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setCurrentOffer, (state, action) => {
+      state.currentOffer = action.payload;
+    })
+    .addCase(setCurrentOfferReviews, (state, action) => {
+      state.currentOfferComments = action.payload;
+    })
+    .addCase(setNearByOffers, (state, action) => {
+      state.nearByOffers = action.payload;
+    })
+    .addCase(addCurrentOfferReview, (state, action) => {
+      state.currentOfferComments = [...state.currentOfferComments, action.payload];
     });
 });
 

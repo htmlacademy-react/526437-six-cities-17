@@ -3,7 +3,7 @@ import { updateStore } from './reducers';
 import createApi from '../services/api';
 
 import { defaultState } from './state';
-// import {testMiddleWare} from '../middleware';
+import {redirectMilleware} from '../middleware';
 
 
 const api = createApi();
@@ -18,8 +18,7 @@ export const store = configureStore(
         thunk: {
           extraArgument: api,
         },
-      })
-    // .concat(testMiddleWare),
+      }).concat(redirectMilleware),
   }
 );
 

@@ -3,6 +3,7 @@ export enum AppRouter {
     Favorites='favorites',
     Login = '/login',
     Offer = 'offer/:id',
+    NotFound = '/404',
     Map = 'map'
 }
 
