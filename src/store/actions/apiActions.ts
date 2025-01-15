@@ -12,7 +12,11 @@ import { setOffersAction,
   setNearByOffers,
   setSelectedCityAction,
   redirectToRoute,
-  addCurrentOfferReview} from '.';
+  addCurrentOfferReview,
+  setFavoriteOffers,
+  setOfferToFavorite,
+
+} from '.';
 import {convertCitiesById} from '../../helpers/convertCitiesById';
 import {setCities} from '../../helpers/setCities';
 import { AppRouter } from '../../constant';
@@ -123,6 +127,48 @@ export const postComment = createAsyncThunk<void,
     const comment = {comment: _args.comment, rating: _args.rating};
     const {data} = await api.post<TReviewOffer>(`/six-cities/comments/${_args.offerId}`, comment);
     dispatch(addCurrentOfferReview(data));
+  }
+);
+export const getFavoriteOffers = createAsyncThunk<void,
+undefined,
+{
+  dispatch: AppDispatch; extra: AxiosInstance;
+}>('GET_FAVORITES',
+  async (_args, {dispatch, extra: api}) => {
+    const {data} = await api.get<TOffer[]>('/six-cities/favorite');
+    dispatch(setFavoriteOffers(data));
+  }
+);
+
+export const changeFavoriteStatus = createAsyncThunk<void,
+{
+  offerId:string;
+  status: number;
+},
+{
+  dispatch: AppDispatch; extra: AxiosInstance;
+}>('ADD_COMMENT',
+  async (_args, {dispatch, extra: api}) => {
+    try{
+      await api.post<TOffer>(`/six-cities/favorite/${_args.offerId}/${_args.status}`);
+      dispatch(setOfferToFavorite(_args.offerId));
+    }catch (e){
+      console.log(e);
+    }
+  }
+);
+export const setSignOutAction = createAsyncThunk<void,
+undefined,
+{
+  extra: AxiosInstance;
+}>('SIGN_OUT',
+  async (_args, { extra: api}) => {
+    try{
+      window.localStorage.setItem('token', '');
+      await api.delete('/six-cities/logout');
+    }catch(e){
+      console.log(e);
+    }
   }
 );
 

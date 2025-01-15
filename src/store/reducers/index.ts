@@ -7,7 +7,10 @@ import {
   setCurrentOffer,
   setCurrentOfferReviews,
   setNearByOffers,
-  addCurrentOfferReview
+  addCurrentOfferReview,
+  setFavoriteOffers,
+  setOfferToFavorite,
+  // setSignOut
 } from '../actions';
 import {createReducer} from '@reduxjs/toolkit';
 import { defaultState } from '../state';
@@ -40,6 +43,15 @@ export const updateStore = createReducer(defaultState, (builder) => {
     })
     .addCase(addCurrentOfferReview, (state, action) => {
       state.currentOfferComments = [...state.currentOfferComments, action.payload];
+    })
+    .addCase(setFavoriteOffers, (state, action) => {
+      state.favoriteOffers = action.payload;
+    })
+    .addCase(setOfferToFavorite, (state, action) => {
+      const offer = state.offers.find((item)=> item.id === action.payload);
+      if(offer){
+        offer.isFavorite = !offer.isFavorite;
+      }
     });
 });
 

@@ -1,7 +1,18 @@
 import { Link } from 'react-router-dom';
 import {AppRouter} from './constant';
+import { useSelector } from 'react-redux';
+import { RootState } from './store';
+import { store } from './store';
+import {setSignOutAction, fetchCheckAuth} from './store/actions/apiActions';
 
 export default function Header(){
+  const isAuth = useSelector((state: RootState)=> state.authorizationStatus);
+  const user = useSelector((state: RootState)=> state.userInfo);
+  const favoriteOffersLength = useSelector((state: RootState) => state.favoriteOffers).length;
+  const signOut = async() => {
+    await store.dispatch(setSignOutAction());
+    await store.dispatch(fetchCheckAuth());
+  };
 
   return (
     <header className="header">
@@ -13,22 +24,35 @@ export default function Header(){
             </Link>
           </div>
           <nav className="header__nav">
-            <ul className="header__nav-list">
-              <li className="header__nav-item user">
-                <Link className="header__nav-link header__nav-link--profile" to={AppRouter.Favorites}>
-                  <div className="header__avatar-wrapper user__avatar-wrapper">
-                  </div>
-                  <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+            {isAuth ?
+              <ul className="header__nav-list">
+                <li className="header__nav-item user">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRouter.Favorites}>
+                    <div style={{backgroundImage: `url(${user.avatarUrl})`}} className="header__avatar-wrapper user__avatar-wrapper">
+                    </div>
+                    <span className="header__user-name user__name">{user.email}</span>
 
-                  <span className="header__favorite-count">0</span>
-                </Link>
-              </li>
-              <li className="header__nav-item">
-                <a className="header__nav-link" href="#">
-                  <span className="header__signout">Sign out</span>
-                </a>
-              </li>
-            </ul>
+                    <span className="header__favorite-count">{favoriteOffersLength}</span>
+                  </Link>
+                </li>
+
+                <li className="header__nav-item">
+                  <Link className="header__nav-link" to={AppRouter.Root}
+                    onClick={() => {
+                      void signOut();
+                    }}
+                  >
+                    <span className="header__signout">Sign out</span>
+                  </Link>
+                </li>
+              </ul> :
+              <ul>
+                <li className="header__nav-item user">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRouter.Login}>
+             Sign in
+                  </Link>
+                </li>
+              </ul>}
           </nav>
         </div>
       </div>

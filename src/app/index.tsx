@@ -10,7 +10,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import {store} from '../store';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
-import {fetchOffers, fetchCheckAuth} from '../store/actions/apiActions';
+import {fetchOffers, fetchCheckAuth, getFavoriteOffers} from '../store/actions/apiActions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../types/rootStateTypes';
 
@@ -24,6 +24,12 @@ export default function App() {
     store.dispatch(fetchCheckAuth());
     loaded.current = true;
   });
+
+  useEffect(()=> {
+    if(authStatus){
+      store.dispatch(getFavoriteOffers());
+    }
+  }, [authStatus]);
 
 
   return (

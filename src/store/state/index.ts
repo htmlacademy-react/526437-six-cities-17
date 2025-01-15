@@ -11,10 +11,12 @@ interface State {
     userInfo: TUser;
     currentOffer: TOfferDetails | Record<string, never>;
     currentOfferComments: TReviewOffer[];
+    favoriteOffers: TOffer[];
   }
 
 export const defaultState:State = {
   offers: [],
+  favoriteOffers: [],
   nearByOffers: [],
   currentOffer: {},
   currentOfferComments:[],

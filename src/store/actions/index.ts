@@ -15,7 +15,10 @@ const Action = {
   SET_CURRENT_OFFER_REVIEWS: 'SET_CURRENT_OFFER_REVIEWS',
   SET_NEAR_BY_OFFERS: 'SET_NEAR_BY_OFFERS',
   REDIRECT: 'REDIRECT',
-  ADD_COMMENT: 'ADD_COMMENT'
+  ADD_COMMENT: 'ADD_COMMENT',
+  ADD_FAVORITE_OFFERS: 'ADD_FAVORITE_OFFERS',
+  SET_OFFER_TO_FAVORITE: 'SET_OFFER_TO_FAVORITE',
+  SIGN_OUT: 'SIGN_OUT'
 };
 
 export const setOffersAction = createAction(Action.SET_OFFERS, (value: TOffer[]) => ({
@@ -48,4 +51,11 @@ export const redirectToRoute = createAction(Action.REDIRECT, (value: string) => 
 export const addCurrentOfferReview = createAction(Action.ADD_COMMENT, (value: TReviewOffer) => ({
   payload: value
 }));
+export const setFavoriteOffers = createAction(Action.ADD_FAVORITE_OFFERS, (value: TOffer[]) => ({
+  payload: value
+}));
+export const setOfferToFavorite = createAction(Action.SET_OFFER_TO_FAVORITE, (value: string) => ({
+  payload: value
+}));
+// export const setSignOut = createAction(Action.SIGN_OUT);
 

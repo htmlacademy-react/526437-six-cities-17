@@ -1,11 +1,18 @@
-import {mockOffers} from '../../mocks/offers';
+import { useSelector, useDispatch } from 'react-redux';
 import { TOffer } from '../../types/offerTypes';
 import { Link } from 'react-router-dom';
+import { RootState } from '../../store';
+import { AppRouter } from '../../constant';
+import {setSelectedCityAction} from '../../store/actions';
+
 
 type TFavorites = {
   [index: string]: TOffer[];
 }
 export default function Favorites() {
+  const dispatch = useDispatch();
+
+  const favoriteOffers = useSelector((state: RootState)=> state.favoriteOffers);
 
   const x = (f: TOffer[]) => {
     const y = f.reduce((acc: TFavorites, val: TOffer): TFavorites => {
@@ -19,8 +26,7 @@ export default function Favorites() {
     }, {});
     return y;
   };
-  const preArray:TOffer[] = mockOffers.filter((y: TOffer) => y.isFavorite);
-  const sortedCardByCity:TFavorites = x(preArray);
+  const sortedCardByCity:TFavorites = x(favoriteOffers);
   return (
     <div className="page">
       <main className="page__main page__main--favorites">
@@ -33,9 +39,12 @@ export default function Favorites() {
                   <li className="favorites__locations-items" key={item}>
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">
-                        <a className="locations__item-link" href="#">
+                        <Link className="locations__item-link"
+                          onClick={()=> dispatch(setSelectedCityAction(sortedCardByCity[item][0].city))}
+                          to={AppRouter.Root}
+                        >
                           <span>{item}</span>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                     <div className="favorites__places">
