@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import FormComment from '../../components/FormComment';
 import ReviewList from '../../components/ReviewList';
 import Map from '../../components/Map';
@@ -7,6 +7,7 @@ import {fetchOffer, fetchComments, fetchNearByOffers} from '../../store/actions/
 import {useLocation} from 'react-router-dom';
 import { RootState, store } from '../../store';
 import { useSelector } from 'react-redux';
+import {OFFER_COUNT} from '../../constant';
 export default function Offer() {
 
   const pathItem = useLocation().pathname.split('/');
@@ -23,17 +24,19 @@ export default function Offer() {
   const currentOfferReviews = useSelector((state: RootState)=> state.currentOfferComments);
   const selectedCity = useSelector((state: RootState)=> state.selectedCity);
   const isAuth = useSelector((state: RootState)=> state.authorizationStatus);
-  const nearByOffers = useSelector((state: RootState)=> state.nearByOffers);
+  const nearByOffers = useSelector((state: RootState)=> state.nearByOffers).slice(0,OFFER_COUNT);
+
   const nearByOffersPoints = nearByOffers.map((item)=> item.location);
+
+  if(currentOffer && currentOffer.location){
+    nearByOffersPoints.push(currentOffer.location);
+  }
 
   const ratingWidth = 100 / 5 * currentOffer.rating;
 
-  const [activeCard, setActiveCard] = useState('');
+  const activeCard = currentOffer.location?.id;
 
-  const handleMouseMove = (value: string) => {
-    setActiveCard(value);
-  };
-
+  const handleMouseMove = (value: string) => value;
   return (
     <div className="page">
       <main className="page__main page__main--offer">

@@ -90,17 +90,18 @@ export default function IndexPage() {
         <h1 className="visually-hidden">Cities </h1>
         <div className="tabs">
           <section className="locations container">
-            <SortSelect
-              selectedItem={activeSortSelect}
-              selectItems={SORTITEMS}
-              onSelect={handleSelect}
-            />
+
             <CityList cityes={cityes}/>
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
+              <SortSelect
+                selectedItem={activeSortSelect}
+                selectItems={SORTITEMS}
+                onSelect={handleSelect}
+              />
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
                 {offers.length}

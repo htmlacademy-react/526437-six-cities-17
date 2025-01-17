@@ -33,13 +33,21 @@ export const updateStore = createReducer(defaultState, (builder) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(setCurrentOffer, (state, action) => {
+      const location = {...action.payload.location, id: action.payload.id};
+      const offer = action.payload;
+      offer.location = location;
       state.currentOffer = action.payload;
     })
     .addCase(setCurrentOfferReviews, (state, action) => {
       state.currentOfferComments = action.payload;
     })
     .addCase(setNearByOffers, (state, action) => {
-      state.nearByOffers = action.payload;
+      const offers = action.payload.map((offer)=> {
+        const location = {...offer.location, id: offer.id};
+        offer.location = location;
+        return offer;
+      });
+      state.nearByOffers = offers;
     })
     .addCase(addCurrentOfferReview, (state, action) => {
       state.currentOfferComments = [...state.currentOfferComments, action.payload];

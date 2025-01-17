@@ -14,19 +14,19 @@ export default function Favorites() {
 
   const favoriteOffers = useSelector((state: RootState)=> state.favoriteOffers);
 
-  const x = (f: TOffer[]) => {
-    const y = f.reduce((acc: TFavorites, val: TOffer): TFavorites => {
-      const co:string = val?.city.name;
-      if(!acc[co]){
-        acc[co] = [val];
+  const mapToCityKey = (offer: TOffer[]) => {
+    const mapCityOffers = offer.reduce((acc: TFavorites, val: TOffer): TFavorites => {
+      const city:string = val?.city.name;
+      if(!acc[city]){
+        acc[city] = [val];
       }else{
-        acc[co].push(val);
+        acc[city].push(val);
       }
       return acc;
     }, {});
-    return y;
+    return mapCityOffers;
   };
-  const sortedCardByCity:TFavorites = x(favoriteOffers);
+  const sortedCardByCity:TFavorites = mapToCityKey(favoriteOffers);
   return (
     <div className="page">
       <main className="page__main page__main--favorites">
