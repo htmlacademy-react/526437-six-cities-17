@@ -1,6 +1,6 @@
 
 import {store} from '../store';
-import {setSelectedCityAction} from '../store/actions';
+import {dispatchSelectedCity} from '../store/offerProcess';
 import { useDispatch } from 'react-redux';
 import { TCity } from '../types/cityTypes';
 import CSS from 'csstype';
@@ -12,7 +12,7 @@ type City = {
 export default function CityList(props: City) {
   const dispatch = useDispatch();
   const cityes = props.cityes;
-  const activeCity = store.getState().selectedCity;
+  const activeCity = store.getState().OFFER.selectedCity;
 
   const LocationStyle: CSS.Properties = {
     cursor: 'pointer'
@@ -24,7 +24,7 @@ export default function CityList(props: City) {
         (
           <li className="locations__item" key={x.name} >
             <div style={LocationStyle}
-              onClick={()=> dispatch(setSelectedCityAction(x))}
+              onClick={()=> dispatch(dispatchSelectedCity(x))}
               className={`locations__item-link tabs__item${x.name === activeCity.name
                 ? '--active'
                 : ''}`}

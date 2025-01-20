@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { TOffer } from '../../types/offerTypes';
 import { Link } from 'react-router-dom';
-import { RootState } from '../../store';
 import { AppRouter } from '../../constant';
-import {setSelectedCityAction} from '../../store/actions';
+import {dispatchSelectedCity} from '../../store/offerProcess';
+import { store } from '../../store';
 
 
 type TFavorites = {
@@ -11,8 +11,8 @@ type TFavorites = {
 }
 export default function Favorites() {
   const dispatch = useDispatch();
-
-  const favoriteOffers = useSelector((state: RootState)=> state.favoriteOffers);
+  // const status = useSelector(()=> store.getState().USER.authorizationStatus);
+  const favoriteOffers: TOffer[] = useSelector(()=> store.getState().OFFER.favoriteOffers);
 
   const mapToCityKey = (offer: TOffer[]) => {
     const mapCityOffers = offer.reduce((acc: TFavorites, val: TOffer): TFavorites => {
@@ -40,7 +40,7 @@ export default function Favorites() {
                     <div className="favorites__locations locations locations--current">
                       <div className="locations__item">
                         <Link className="locations__item-link"
-                          onClick={()=> dispatch(setSelectedCityAction(sortedCardByCity[item][0].city))}
+                          onClick={()=> dispatch(dispatchSelectedCity(sortedCardByCity[item][0].city))}
                           to={AppRouter.Root}
                         >
                           <span>{item}</span>

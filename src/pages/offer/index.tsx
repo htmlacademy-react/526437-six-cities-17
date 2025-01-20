@@ -20,11 +20,11 @@ export default function Offer() {
     loaded.current = true;
   }, [offerId]);
 
-  const currentOffer = useSelector((state: RootState)=> state.currentOffer);
-  const currentOfferReviews = useSelector((state: RootState)=> state.currentOfferComments);
-  const selectedCity = useSelector((state: RootState)=> state.selectedCity);
-  const isAuth = useSelector((state: RootState)=> state.authorizationStatus);
-  const nearByOffers = useSelector((state: RootState)=> state.nearByOffers).slice(0,OFFER_COUNT);
+  const currentOffer = useSelector((state: RootState)=> state.OFFER.currentOffer);
+  const currentOfferReviews = useSelector((state: RootState)=> state.OFFER.currentOfferComments);
+  const selectedCity = useSelector((state: RootState)=> state.OFFER.selectedCity);
+  const isAuth = useSelector((state: RootState)=> state.USER.authorizationStatus);
+  const nearByOffers = useSelector((state: RootState)=> state.OFFER.nearByOffers).slice(0,OFFER_COUNT);
 
   const nearByOffersPoints = nearByOffers.map((item)=> item.location);
 

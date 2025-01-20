@@ -11,8 +11,8 @@ import { SORTITEMS } from '../../constant';
 
 export default function IndexPage() {
 
-  const selectedCity = useSelector((state: RootState) => state.selectedCity);
-  const stateOffers = useSelector((state: RootState) => state.offers);
+  const selectedCity = useSelector((state: RootState) => state.OFFER.selectedCity);
+  const stateOffers = useSelector((state: RootState) => state.OFFER.offers);
   const offers = stateOffers.filter((y) => y.city.name === selectedCity.name);
   const offersPoints = offers.map((offer) => offer.location);
 
@@ -20,7 +20,7 @@ export default function IndexPage() {
 
   const [activeSortSelect, setActiveSortSelect] = useState({title: 'Popular', type: 'default'});
 
-  const cityes = useSelector(()=>store.getState().cityes);
+  const cityes = useSelector(()=>store.getState().OFFER.cityes);
 
   const css = `.loader {
   margin: 100px auto;

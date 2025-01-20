@@ -3,172 +3,136 @@ import { AppDispatch } from '..';
 import { AxiosInstance } from 'axios';
 import { TOffer, TOfferDetails,TReviewOffer } from '../../types/offerTypes';
 import { TUser } from '../../types/userTypes';
-import { setOffersAction,
-  setCityesAction,
-  setUserInfo,
-  setAuthStatus,
-  setCurrentOffer,
-  setCurrentOfferReviews,
-  setNearByOffers,
-  setSelectedCityAction,
-  redirectToRoute,
-  addCurrentOfferReview,
-  setFavoriteOffers,
-  setOfferToFavorite,
 
-} from '.';
-import {convertCitiesById} from '../../helpers/convertCitiesById';
-import {setCities} from '../../helpers/setCities';
-import { AppRouter } from '../../constant';
 
-export const fetchOffers = createAsyncThunk<void, undefined,
+export const fetchOffers = createAsyncThunk<TOffer[], undefined,
 {
-    dispatch: AppDispatch;
     extra: AxiosInstance;
-
-}>('GET_OFFERS',
-  async (_args, {dispatch, extra: api}) => {
+}>('FETCH_OFFERS',
+  async (_args, { extra: api}) => {
     const {data} = await api.get<TOffer[]>('/six-cities/offers');
-    const offers = convertCitiesById(data);
-    const cityes = setCities(offers);
-    dispatch(setOffersAction(offers));
-    dispatch(setCityesAction(cityes));
-
+    return data;
   }
 );
 
-export const fetchCheckAuth = createAsyncThunk<void, undefined,
+export const fetchFavoriteOffers = createAsyncThunk<TOffer[], undefined,
+{
+  extra: AxiosInstance;
+}>('FETCH_FAVORITES',
+  async (_args, { extra: api}) => {
+    const {data} = await api.get<TOffer[]>('/six-cities/favorite');
+    return data;
+  }
+);
+
+export const fetchCheckAuth = createAsyncThunk<TUser, undefined,
 {
   dispatch: AppDispatch; extra: AxiosInstance;
 }>('CHECK_AUTH',
-  async (_args, {dispatch, extra: api}) => {
-    try{
-      const token: string | null = window.localStorage.getItem('token');
-      api.defaults.headers.common['X-Token'] = `${token}` || '';
+  async (_args, { extra: api}) => {
+    // try{
+    const token: string | null = window.localStorage.getItem('token');
+    api.defaults.headers.common['X-Token'] = `${token}` || '';
 
-      const {data} = await api.get<TUser>('/six-cities/login');
-      dispatch(setUserInfo(data));
-      dispatch(setAuthStatus(true));
-    }catch(e) {
-      dispatch(setAuthStatus(false));
-    }
+    const {data} = await api.get<TUser>('/six-cities/login');
+
+    return data;
+
   }
 );
 
-export const fetchLogin = createAsyncThunk<void,
+export const fetchLogin = createAsyncThunk<TUser,
 {
   email: string; password: string;
 },
 {
-  dispatch: AppDispatch; extra: AxiosInstance;
+  extra: AxiosInstance;
 }>('POST_LOGIN',
-  async (_args, {dispatch, extra: api}) => {
+  async (_args, { extra: api}) => {
     const {data} = await api.post<TUser>('/six-cities/login', _args);
-    const {token} = data;
-    if(token){
-      window.localStorage.setItem('token', token);
-    }
-    dispatch(setUserInfo(data));
-    dispatch(setAuthStatus(true));
+    return data;
   }
 );
-export const fetchOffer = createAsyncThunk<void,
+export const fetchOffer = createAsyncThunk<TOfferDetails,
 {
   offerId:string;
 },
 {
-  dispatch: AppDispatch; extra: AxiosInstance;
+  dispatch: AppDispatch;extra: AxiosInstance;
 }>('GET_OFFER',
-  async (_args, {dispatch, extra: api}) => {
-    try{
-      const {data} = await api.get<TOfferDetails>(`/six-cities/offers/${_args.offerId}`);
-      dispatch(setCurrentOffer(data));
-      dispatch(setSelectedCityAction(data.city));
-    }catch (e){
-      dispatch(redirectToRoute(AppRouter.NotFound));
-    }
+  async (_args, {extra: api}) => {
+    const {data} = await api.get<TOfferDetails>(`/six-cities/offers/${_args.offerId}`);
+    return data;
+    // dispatch(redirectToRoute(AppRouter.NotFound));
+
+
   }
 );
-export const fetchComments = createAsyncThunk<void,
+export const fetchComments = createAsyncThunk<TReviewOffer[],
 {
   offerId:string;
 },
 {
-  dispatch: AppDispatch; extra: AxiosInstance;
+  extra: AxiosInstance;
 }>('GET_OFFER_REVIEWS',
-  async (_args, {dispatch, extra: api}) => {
+  async (_args, { extra: api}) => {
     const {data} = await api.get<TReviewOffer[]>(`/six-cities/comments/${_args.offerId}`);
-    dispatch(setCurrentOfferReviews(data));
+    return data;
   }
 );
 
-export const fetchNearByOffers = createAsyncThunk<void,
+export const fetchNearByOffers = createAsyncThunk<TOffer[],
 {
   offerId:string;
 },
 {
-  dispatch: AppDispatch; extra: AxiosInstance;
+  extra: AxiosInstance;
 }>('GET_NEAR_BY_OFFERS',
-  async (_args, {dispatch, extra: api}) => {
+  async (_args, { extra: api}) => {
     const {data} = await api.get<TOffer[]>(`/six-cities/offers/${_args.offerId}/nearby`);
-    dispatch(setNearByOffers(data));
+    return data;
+    // dispatch(setNearByOffers(data));
   }
 );
-export const postComment = createAsyncThunk<void,
+export const postComment = createAsyncThunk<TReviewOffer,
 {
   offerId:string;
   comment: string;
   rating: number;
 },
 {
-  dispatch: AppDispatch; extra: AxiosInstance;
-}>('ADD_COMMENT',
-  async (_args, {dispatch, extra: api}) => {
+  extra: AxiosInstance;
+}>('POST_COMMENT',
+  async (_args, { extra: api}) => {
     const comment = {comment: _args.comment, rating: _args.rating};
     const {data} = await api.post<TReviewOffer>(`/six-cities/comments/${_args.offerId}`, comment);
-    dispatch(addCurrentOfferReview(data));
-  }
-);
-export const getFavoriteOffers = createAsyncThunk<void,
-undefined,
-{
-  dispatch: AppDispatch; extra: AxiosInstance;
-}>('GET_FAVORITES',
-  async (_args, {dispatch, extra: api}) => {
-    const {data} = await api.get<TOffer[]>('/six-cities/favorite');
-    dispatch(setFavoriteOffers(data));
+    return data;
   }
 );
 
-export const changeFavoriteStatus = createAsyncThunk<void,
+
+export const fetchFavoriteStatus = createAsyncThunk<TOffer,
 {
   offerId:string;
   status: number;
 },
 {
-  dispatch: AppDispatch; extra: AxiosInstance;
+ extra: AxiosInstance;
 }>('ADD_COMMENT',
-  async (_args, {dispatch, extra: api}) => {
-    try{
-      await api.post<TOffer>(`/six-cities/favorite/${_args.offerId}/${_args.status}`);
-      dispatch(setOfferToFavorite(_args.offerId));
-    }catch (e){
-      console.log(e);
-    }
+  async (_args, { extra: api}) => {
+    const {data} = await api.post<TOffer>(`/six-cities/favorite/${_args.offerId}/${_args.status}`);
+    return data;
+
   }
 );
-export const setSignOutAction = createAsyncThunk<void,
+export const fetchSignOutAction = createAsyncThunk<void,
 undefined,
 {
   extra: AxiosInstance;
 }>('SIGN_OUT',
   async (_args, { extra: api}) => {
-    try{
-      window.localStorage.setItem('token', '');
-      await api.delete('/six-cities/logout');
-    }catch(e){
-      console.log(e);
-    }
+    await api.delete('/six-cities/logout');
+
   }
 );
 
