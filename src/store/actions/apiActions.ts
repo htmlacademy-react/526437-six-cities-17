@@ -63,9 +63,6 @@ export const fetchOffer = createAsyncThunk<TOfferDetails,
   async (_args, {extra: api}) => {
     const {data} = await api.get<TOfferDetails>(`/six-cities/offers/${_args.offerId}`);
     return data;
-    // dispatch(redirectToRoute(AppRouter.NotFound));
-
-
   }
 );
 export const fetchComments = createAsyncThunk<TReviewOffer[],

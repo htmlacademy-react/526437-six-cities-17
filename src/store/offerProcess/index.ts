@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NameSpace,
-  //  AuthorizationStatus
-} from '../../constant';
+import { AppRouter, NameSpace} from '../../constant';
 import {OfferProcess} from '../../types/newStateTypes';
 import {fetchOffers,
   fetchFavoriteOffers,
@@ -39,6 +37,14 @@ export const offerProcess = createSlice({
     dispatchSelectedCity: (state, action: PayloadAction<TCity>) => {
       state.selectedCity = action.payload;
     },
+    dispatchNearByOfferToFavorite: (state, action: PayloadAction<{id: string}>) => {
+      const {id} = action.payload;
+      const offer = state.nearByOffers.find((x) => x.id === id);
+      if(offer){
+        offer.isFavorite = !offer?.isFavorite;
+      }
+    },
+    dispatchRedirect: () => void {}
   },
   extraReducers(builder) {
     builder
@@ -62,7 +68,8 @@ export const offerProcess = createSlice({
         state.selectedCity = action.payload.city;
       })
       .addCase(fetchOffer.rejected, ()=> {
-        // dispatch(redirectToRoute(AppRouter.NotFound));
+        const url = window.location.hostname;
+        window.location.replace(`${url}${AppRouter.NotFound}`);
 
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
@@ -88,4 +95,4 @@ export const offerProcess = createSlice({
   }
 });
 
-export const {dispatchSelectedCity} = offerProcess.actions;
+export const {dispatchSelectedCity, dispatchNearByOfferToFavorite, dispatchRedirect} = offerProcess.actions;

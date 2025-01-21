@@ -110,6 +110,7 @@ export default function IndexPage() {
               </b>
               {offers && offers.length ?
                 <div className="cities__places-list places__list tabs__content" >
+
                   <CardsList
                     cardType="cities"
                     offers={sortedOffers}

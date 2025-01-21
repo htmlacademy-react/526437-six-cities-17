@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type TSelectItem = {title: string; type: string}
 
@@ -9,13 +9,32 @@ type TProps= {
 }
 export default function SortSelect(props: TProps){
   const [showSelect, setShowSelect] = useState(false);
+  useEffect(()=> {
+    const clickListener = (e: MouseEvent) => {
+      if(e.target){
+        const obj = e.target as HTMLElement;
+        const classes = obj.classList[0]?.includes('places__sorting');
+        if(!classes){
+          setShowSelect(false);
+        }
+      }
+    };
+    if(showSelect){
+      window.addEventListener('click', clickListener);
+    }
+    return () => window.removeEventListener('click', clickListener);
+  });
   const {selectedItem, selectItems, onSelect} = props;
   const handleClick = (type:string) => {
     setShowSelect(!showSelect);
     onSelect(type);
   };
+  const css = `.form_style {display: flex;
+    justify-content: flex-start;
+    width: max-content;}`;
   return (
-    <form className="places__sorting" action="#" method="get">
+    <form className="places__sorting form_style" >
+      <style>{css}</style>
       <span className="places__sorting-caption">Sort by </span>
       <span className="places__sorting-type"
         tabIndex={0}

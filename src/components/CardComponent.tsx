@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { TOffer} from '../types/offerTypes';
 import CSS from 'csstype';
 import {fetchFavoriteStatus, fetchFavoriteOffers} from '../store/actions/apiActions';
+import {dispatchNearByOfferToFavorite} from '../store/offerProcess';
 import { store } from '../store';
 
 type TProps = {
@@ -32,6 +33,7 @@ export default function CardComponent(props: TProps) {
   const handleChangeStatus = async(status: number) => {
     const payload = {offerId: id, status: status};
     await store.dispatch(fetchFavoriteStatus(payload));
+    store.dispatch(dispatchNearByOfferToFavorite({id}));
     await store.dispatch(fetchFavoriteOffers());
   };
   const ratingWidth = 100 / 5 * rating;
