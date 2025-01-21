@@ -9,7 +9,7 @@ import DefaultLayout from '../layouts/default-layout';
 import { HelmetProvider } from 'react-helmet-async';
 import {store} from '../store';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import {fetchOffers, fetchCheckAuth, fetchFavoriteOffers} from '../store/actions/apiActions';
 // import {rootReducer} from '../store/rootReducer';
 import { useSelector } from 'react-redux';
@@ -19,11 +19,9 @@ import { RootState } from '../types/rootStateTypes';
 export default function App() {
 
   const authStatus = useSelector((state: RootState) => state.USER.authorizationStatus || false) ;
-  const loaded = useRef(false);
   useEffect(() => {
     store.dispatch(fetchOffers());
     store.dispatch(fetchCheckAuth());
-    loaded.current = true;
   });
 
   useEffect(()=> {

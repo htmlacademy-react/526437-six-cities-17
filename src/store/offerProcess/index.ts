@@ -14,6 +14,7 @@ import { TCity } from '../../types/cityTypes';
 
 
 const initialState: OfferProcess = {
+  loaded: false,
   offers: [],
   cityes: [],
   favoriteOffers: [],
@@ -53,9 +54,11 @@ export const offerProcess = createSlice({
         const cityes = setCities(offers);
         state.offers = offers;
         state.cityes = cityes;
+        state.loaded = true;
       })
       .addCase(fetchOffers.rejected, (state) => {
         state.offers = [];
+        state.loaded = true;
       })
       .addCase(fetchFavoriteOffers.fulfilled, (state, action) => {
         state.favoriteOffers = action.payload;

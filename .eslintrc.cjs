@@ -14,6 +14,7 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     "no-console": "off",
+    "no-nested-ternary": "off",
     'react-refresh/only-export-components': 'warn',
   },
   overrides: [

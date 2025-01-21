@@ -6,10 +6,13 @@ import CardsList from '../../components/CardsList';
 import Map from '../../components/Map';
 import CityList from '../../components/CityList';
 import SortSelect from '../../components/SortSelect';
+import EmptyOffers from '../../components/EmptyOffers';
 import { store } from '../../store';
 import { SORTITEMS } from '../../constant';
 
 export default function IndexPage() {
+
+  const loaded = useSelector((state: RootState)=> state.OFFER.loaded);
 
   const selectedCity = useSelector((state: RootState) => state.OFFER.selectedCity);
   const stateOffers = useSelector((state: RootState) => state.OFFER.offers);
@@ -108,18 +111,20 @@ export default function IndexPage() {
                 places to stay in
                 {selectedCity.name}
               </b>
-              {offers && offers.length ?
-                <div className="cities__places-list places__list tabs__content" >
-
-                  <CardsList
-                    cardType="cities"
-                    offers={sortedOffers}
-                    onMouseMove={handleMouseMove}
-                  />
-                </div> :
+              {!loaded ?
                 <div className='loader'>
                   <style>{css}</style>
-                </div>}
+                </div>
+                :
+                offers && offers.length ?
+                  <div className="cities__places-list places__list tabs__content" >
+                    <CardsList
+                      cardType="cities"
+                      offers={sortedOffers}
+                      onMouseMove={handleMouseMove}
+                    />
+                  </div> :
+                  <EmptyOffers/>}
             </section>
             <div className="cities__right-section">
               <Map
