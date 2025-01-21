@@ -2,6 +2,9 @@
 import { Link } from 'react-router-dom';
 import { TOffer} from '../types/offerTypes';
 import CSS from 'csstype';
+import {fetchFavoriteStatus, fetchFavoriteOffers} from '../store/actions/apiActions';
+import {dispatchNearByOfferToFavorite} from '../store/offerProcess';
+import { store } from '../store';
 
 type TProps = {
   card: TOffer;
@@ -15,6 +18,7 @@ export default function CardComponent(props: TProps) {
     position: 'relative'
   };
 
+
   const {
     previewImage,
     isPremium,
@@ -26,6 +30,12 @@ export default function CardComponent(props: TProps) {
   } = props.card;
   const {cardType} = props;
 
+  const handleChangeStatus = async(status: number) => {
+    const payload = {offerId: id, status: status};
+    await store.dispatch(fetchFavoriteStatus(payload));
+    store.dispatch(dispatchNearByOfferToFavorite({id}));
+    await store.dispatch(fetchFavoriteOffers());
+  };
   const ratingWidth = 100 / 5 * rating;
 
 
@@ -50,7 +60,17 @@ export default function CardComponent(props: TProps) {
           </div>
           <button className="place-card__bookmark-button button" type="button">
             {isFavorite ?
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/></svg> : <svg className="place-card__bookmark-icon" width="18" height="19"><use xlinkHref="#icon-bookmark"/></svg>}
+              <svg onClick={() => {
+                void handleChangeStatus(0);
+              }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+              ><path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/>
+              </svg>
+              :
+              <svg onClick={ () => {
+                void handleChangeStatus(1);
+              }} className="place-card__bookmark-icon" width="18" height="19"
+              ><use xlinkHref="#icon-bookmark"/>
+              </svg>}
 
             <span className="visually-hidden">To bookmarks</span>
           </button>

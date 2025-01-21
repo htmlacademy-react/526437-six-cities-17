@@ -1,12 +1,10 @@
-import {TOffer} from '../types/offerTypes';
-import {TCity} from '../types/cityTypes';
-import {TUser} from '../types/userTypes';
+
+import {UserProcess,
+  OfferProcess,} from '../types/newStateTypes';
 
 export type RootState = {
-    offers: TOffer[];
-    selectedCity: TCity;
-    cityes: TCity[];
-    authorizationStatus: boolean;
-    userInfo: TUser;
+    USER: UserProcess;
+    OFFER: OfferProcess;
   }
+
 

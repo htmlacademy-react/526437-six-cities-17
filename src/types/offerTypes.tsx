@@ -29,5 +29,8 @@ export type TReviewOffer = {
     comment: string;
     rating: number;
 }
+export type TFavorites = {
+  [index: string]: TOffer[];
+}
 
 

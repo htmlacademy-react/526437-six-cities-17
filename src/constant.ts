@@ -8,6 +8,19 @@ export enum AppRouter {
 }
 
 
+export enum NameSpace {
+  User = 'USER',
+  Offer = 'OFFER',
+  Login = 'LOGIN'
+}
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+
 export enum PrivateStatus {
     Auth = 'AUTH',
     Guest = 'GUEST',
@@ -24,3 +37,5 @@ export const SORTITEMS: {title: string; type: string}[] = [
   {title: 'Price: high to low', type: 'hight'},
   {title: 'Top rated first', type: 'top'},
 ];
+
+export const OFFER_COUNT = 3;

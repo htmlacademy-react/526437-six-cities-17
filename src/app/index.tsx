@@ -10,20 +10,27 @@ import { HelmetProvider } from 'react-helmet-async';
 import {store} from '../store';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
-import {fetchOffers, fetchCheckAuth} from '../store/actions/apiActions';
+import {fetchOffers, fetchCheckAuth, fetchFavoriteOffers} from '../store/actions/apiActions';
+// import {rootReducer} from '../store/rootReducer';
 import { useSelector } from 'react-redux';
 import { RootState } from '../types/rootStateTypes';
 
 
 export default function App() {
 
-  const authStatus = useSelector((state: RootState) => state.authorizationStatus || false) ;
+  const authStatus = useSelector((state: RootState) => state.USER.authorizationStatus || false) ;
   const loaded = useRef(false);
   useEffect(() => {
     store.dispatch(fetchOffers());
     store.dispatch(fetchCheckAuth());
     loaded.current = true;
   });
+
+  useEffect(()=> {
+    if(authStatus){
+      store.dispatch(fetchFavoriteOffers());
+    }
+  }, [authStatus]);
 
 
   return (

@@ -1,39 +1,64 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import FormComment from '../../components/FormComment';
 import ReviewList from '../../components/ReviewList';
 import Map from '../../components/Map';
 import CardsList from '../../components/CardsList';
-import {fetchOffer, fetchComments, fetchNearByOffers} from '../../store/actions/apiActions';
+import {fetchOffer,
+  fetchComments,
+  fetchNearByOffers,
+  fetchFavoriteStatus,
+  fetchFavoriteOffers
+
+} from '../../store/actions/apiActions';
+import {dispatchRedirect} from '../../store/offerProcess';
 import {useLocation} from 'react-router-dom';
 import { RootState, store } from '../../store';
 import { useSelector } from 'react-redux';
+import {OFFER_COUNT} from '../../constant';
 export default function Offer() {
 
   const pathItem = useLocation().pathname.split('/');
   const offerId = pathItem[pathItem.length - 1];
   const loaded = useRef(false);
-  useEffect(() => {
-    store.dispatch(fetchOffer({offerId: offerId}));
-    store.dispatch(fetchComments({offerId: offerId}));
-    store.dispatch(fetchNearByOffers({offerId: offerId}));
-    loaded.current = true;
-  }, [offerId]);
 
-  const currentOffer = useSelector((state: RootState)=> state.currentOffer);
-  const currentOfferReviews = useSelector((state: RootState)=> state.currentOfferComments);
-  const selectedCity = useSelector((state: RootState)=> state.selectedCity);
-  const isAuth = useSelector((state: RootState)=> state.authorizationStatus);
-  const nearByOffers = useSelector((state: RootState)=> state.nearByOffers);
+
+  const currentOffer = useSelector((state: RootState)=> state.OFFER.currentOffer);
+  const currentOfferReviews = useSelector((state: RootState)=> state.OFFER.currentOfferComments);
+  const selectedCity = useSelector((state: RootState)=> state.OFFER.selectedCity);
+  const isAuth = useSelector((state: RootState)=> state.USER.authorizationStatus);
+  const nearByOffers = useSelector((state: RootState)=> state.OFFER.nearByOffers).slice(0,OFFER_COUNT);
+
+  useSelector((state: RootState)=> state.OFFER.nearByOffers).slice(0,OFFER_COUNT);
+
   const nearByOffersPoints = nearByOffers.map((item)=> item.location);
+
+  if(currentOffer && currentOffer.location){
+    nearByOffersPoints.push(currentOffer.location);
+  }
 
   const ratingWidth = 100 / 5 * currentOffer.rating;
 
-  const [activeCard, setActiveCard] = useState('');
+  const activeCard = currentOffer.location?.id;
 
-  const handleMouseMove = (value: string) => {
-    setActiveCard(value);
+  const handleMouseMove = (value: string) => value;
+  const handleChangeStatus = async(status: number) => {
+    const payload = {offerId, status: status};
+    await store.dispatch(fetchFavoriteStatus(payload));
+    await store.dispatch(fetchOffer({offerId: offerId}));
+    await store.dispatch(fetchFavoriteOffers());
   };
 
+  useEffect(() => {
+    store.dispatch(fetchComments({offerId: offerId}));
+    store.dispatch(fetchNearByOffers({offerId: offerId}));
+    try{
+      store.dispatch(fetchOffer({offerId: offerId}));
+    }catch(e){
+      store.dispatch(dispatchRedirect());
+    }
+
+    loaded.current = true;
+  }, [offerId]);
   return (
     <div className="page">
       <main className="page__main page__main--offer">
@@ -65,11 +90,20 @@ export default function Offer() {
                 </button>
                 <button className="offer__bookmark-button button" type="button">
                   {currentOffer.isFavorite ?
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+                      onClick={() => {
+                        void handleChangeStatus(0);
+                      }}
+                    >
                       <path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"/>
                     </svg>
                     :
-                    <svg className="offer__bookmark-icon" width="31" height="33">
+                    <svg className="offer__bookmark-icon" width="31" height="33"
+                      onClick={() => {
+                        void handleChangeStatus(1);
+                      }}
+                    >
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>}
 
@@ -145,7 +179,6 @@ export default function Offer() {
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               <CardsList offers={nearByOffers} onMouseMove={handleMouseMove} cardType='near-places'/>
-
             </div>
           </section>
         </div>

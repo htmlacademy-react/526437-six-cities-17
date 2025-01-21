@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import {store} from '../../store';
 import { fetchLogin } from '../../store/actions/apiActions';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 export default function Login() {
 
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const status = store.getState().authorizationStatus;
+  const status = useSelector(()=> store.getState().USER.authorizationStatus);
   const path = searchParams.get('next');
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export default function Login() {
   const handleSubmitLoginForm = async() => {
     const goTo = '/';
     await store.dispatch(fetchLogin(form));
-    const authStatus = store.getState().authorizationStatus;
+    const authStatus = store.getState().USER.authorizationStatus;
     if (authStatus){
       navigate(goTo);
     }

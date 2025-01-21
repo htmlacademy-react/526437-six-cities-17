@@ -11,8 +11,8 @@ import { SORTITEMS } from '../../constant';
 
 export default function IndexPage() {
 
-  const selectedCity = useSelector((state: RootState) => state.selectedCity);
-  const stateOffers = useSelector((state: RootState) => state.offers);
+  const selectedCity = useSelector((state: RootState) => state.OFFER.selectedCity);
+  const stateOffers = useSelector((state: RootState) => state.OFFER.offers);
   const offers = stateOffers.filter((y) => y.city.name === selectedCity.name);
   const offersPoints = offers.map((offer) => offer.location);
 
@@ -20,7 +20,7 @@ export default function IndexPage() {
 
   const [activeSortSelect, setActiveSortSelect] = useState({title: 'Popular', type: 'default'});
 
-  const cityes = useSelector(()=>store.getState().cityes);
+  const cityes = useSelector(()=>store.getState().OFFER.cityes);
 
   const css = `.loader {
   margin: 100px auto;
@@ -90,17 +90,18 @@ export default function IndexPage() {
         <h1 className="visually-hidden">Cities </h1>
         <div className="tabs">
           <section className="locations container">
-            <SortSelect
-              selectedItem={activeSortSelect}
-              selectItems={SORTITEMS}
-              onSelect={handleSelect}
-            />
+
             <CityList cityes={cityes}/>
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
+              <SortSelect
+                selectedItem={activeSortSelect}
+                selectItems={SORTITEMS}
+                onSelect={handleSelect}
+              />
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
                 {offers.length}
@@ -109,6 +110,7 @@ export default function IndexPage() {
               </b>
               {offers && offers.length ?
                 <div className="cities__places-list places__list tabs__content" >
+
                   <CardsList
                     cardType="cities"
                     offers={sortedOffers}
