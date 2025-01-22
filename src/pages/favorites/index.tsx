@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { TOffer, TFavorites } from '../../types/offerTypes';
+import { TOffer, TFavorites } from '../../types/offer-types';
 import { Link } from 'react-router-dom';
 import { AppRouter } from '../../constant';
 import {dispatchSelectedCity} from '../../store/offerProcess';
-import {fetchFavoriteStatus, fetchFavoriteOffers} from '../../store/actions/apiActions';
+import {fetchFavoriteStatus, fetchFavoriteOffers} from '../../store/actions/api-actions';
 import { store } from '../../store';
-import mapCityes from '../../helpers/mapCityes';
+import mapCityes from '../../helpers/map-cityes';
 import { useMemo } from 'react';
 
 

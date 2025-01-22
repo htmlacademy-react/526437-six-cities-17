@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { postComment } from '../store/actions/apiActions';
+import { postComment } from '../store/actions/api-actions';
 import { store } from '../store';
 
 type TProps = {

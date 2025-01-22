@@ -1,8 +1,8 @@
 import {useRef} from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import useMap from '../hooks/useMap';
-import { TCity, TLocation } from '../types/cityTypes';
+import useMap from '../hooks/use-map';
+import { TCity, TLocation } from '../types/city-types';
 import { URL_MARKER_DEFAULT,
   URL_MARKER_CURRENT
 } from '../constant';

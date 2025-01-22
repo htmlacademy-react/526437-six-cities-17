@@ -1,6 +1,6 @@
 
 
-import {TReviewOffer} from '../types/offerTypes';
+import {TReviewOffer} from '../types/offer-types';
 type TProps = {
     review: TReviewOffer;
 }

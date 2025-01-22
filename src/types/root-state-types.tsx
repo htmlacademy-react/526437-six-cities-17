@@ -1,6 +1,6 @@
 
 import {UserProcess,
-  OfferProcess,} from '../types/newStateTypes';
+  OfferProcess,} from './state-types';
 
 export type RootState = {
     USER: UserProcess;

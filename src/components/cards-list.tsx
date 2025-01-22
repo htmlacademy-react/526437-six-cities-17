@@ -1,6 +1,6 @@
 
-import { TOffer } from '../types/offerTypes';
-import CardComponent from '../components/CardComponent';
+import { TOffer } from '../types/offer-types';
+import CardComponent from './card-component';
 
 type TProps = {
   offers: TOffer[];

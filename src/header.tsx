@@ -3,10 +3,12 @@ import {AppRouter} from './constant';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { store } from './store';
-import {fetchCheckAuth, fetchSignOutAction} from './store/actions/apiActions';
+import {fetchCheckAuth, fetchSignOutAction} from './store/actions/api-actions';
+import { authStatus } from './store/userProcess/selector';
+
 
 export default function Header(){
-  const isAuth = useSelector((state: RootState)=> state.USER.authorizationStatus);
+  const isAuth = useSelector((state: RootState) =>(authStatus(state)));
   const user = useSelector((state: RootState)=> state.USER.userInfo);
   const favoriteOffersLength = useSelector((state: RootState) => state.OFFER.favoriteOffers).length;
   const signOut = async() => {

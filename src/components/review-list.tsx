@@ -1,6 +1,6 @@
 
-import {TReviewOffer} from '../types/offerTypes';
-import ReviewItem from './ReviewItem';
+import {TReviewOffer} from '../types/offer-types';
+import ReviewItem from './review-item';
 type TProps = {
     reviewList: TReviewOffer[];
   }

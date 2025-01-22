@@ -14,6 +14,7 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     "no-console": "off",
+    "no-nested-ternary": "off",
     'react-refresh/only-export-components': 'warn',
   },
   overrides: [
@@ -21,6 +22,7 @@ module.exports = {
       files: ['*test*'],
       rules: {
         '@typescript-eslint/unbound-method': 'off',
+        "@react-hooks/rules-of-hooks": "off",
         "@typescript-eslint/no-misused-promises": [
           "error",
           {

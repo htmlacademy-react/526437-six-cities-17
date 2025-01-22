@@ -4,7 +4,6 @@ export enum AppRouter {
     Login = '/login',
     Offer = 'offer/:id',
     NotFound = '/404',
-    Map = 'map'
 }
 
 

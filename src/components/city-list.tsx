@@ -2,7 +2,7 @@
 import {store} from '../store';
 import {dispatchSelectedCity} from '../store/offerProcess';
 import { useDispatch } from 'react-redux';
-import { TCity } from '../types/cityTypes';
+import { TCity } from '../types/city-types';
 import CSS from 'csstype';
 
 type City = {
