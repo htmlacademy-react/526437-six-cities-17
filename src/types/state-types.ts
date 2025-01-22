@@ -1,6 +1,6 @@
-import {TOffer, TOfferDetails, TReviewOffer} from './offerTypes';
-import {TCity} from './cityTypes';
-import {TUser} from './userTypes';
+import {TOffer, TOfferDetails, TReviewOffer} from './offer-types';
+import {TCity} from './city-types';
+import {TUser} from './user-types';
 
 
 export type UserProcess = {

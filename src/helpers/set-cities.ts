@@ -1,5 +1,5 @@
-import { TOffer } from '../types/offerTypes';
-import { TCity } from '../types/cityTypes';
+import { TOffer } from '../types/offer-types';
+import { TCity } from '../types/city-types';
 
 export const setCities = (offers: TOffer[]) =>{
   const uniqueCityesNames = offers.map((offer) => offer.city.name)

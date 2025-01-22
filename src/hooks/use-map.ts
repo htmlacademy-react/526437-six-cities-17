@@ -1,7 +1,7 @@
 
 import {useEffect, useState, useRef} from 'react';
 import leaflet from 'leaflet';
-import { TCity } from '../types/cityTypes';
+import { TCity } from '../types/city-types';
 
 
 export default function useMap(mapRef: React.MutableRefObject<HTMLInputElement | null> , city: TCity) {

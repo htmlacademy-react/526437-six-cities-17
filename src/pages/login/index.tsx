@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import {store} from '../../store';
-import { fetchLogin } from '../../store/actions/apiActions';
+import { fetchLogin } from '../../store/actions/api-actions';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { authStatus } from '../../store/userProcess/selector';
+import { RootState } from '../../store';
+
 export default function Login() {
 
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const status = useSelector(()=> store.getState().USER.authorizationStatus);
+  const status = useSelector((state: RootState) =>(authStatus(state)));
   const path = searchParams.get('next');
 
   useEffect(() => {
@@ -45,8 +48,8 @@ export default function Login() {
   const handleSubmitLoginForm = async() => {
     const goTo = '/';
     await store.dispatch(fetchLogin(form));
-    const authStatus = store.getState().USER.authorizationStatus;
-    if (authStatus){
+    const isAuth = store.getState().USER.authorizationStatus;
+    if (isAuth){
       navigate(goTo);
     }
 

@@ -10,25 +10,25 @@ import { HelmetProvider } from 'react-helmet-async';
 import {store} from '../store';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
-import {fetchOffers, fetchCheckAuth, fetchFavoriteOffers} from '../store/actions/apiActions';
+import {fetchOffers, fetchCheckAuth, fetchFavoriteOffers} from '../store/actions/api-actions';
 // import {rootReducer} from '../store/rootReducer';
 import { useSelector } from 'react-redux';
-import { RootState } from '../types/rootStateTypes';
+import { RootState } from '../types/root-state-types';
+import { authStatus } from '../store/userProcess/selector';
 
 
 export default function App() {
-
-  const authStatus = useSelector((state: RootState) => state.USER.authorizationStatus || false) ;
+  const isAuth = useSelector((state: RootState) =>(authStatus(state)));
   useEffect(() => {
     store.dispatch(fetchOffers());
     store.dispatch(fetchCheckAuth());
   });
 
   useEffect(()=> {
-    if(authStatus){
+    if(isAuth){
       store.dispatch(fetchFavoriteOffers());
     }
-  }, [authStatus]);
+  }, [isAuth]);
 
 
   return (
@@ -39,7 +39,7 @@ export default function App() {
             <Route index element={<IndexPage />} />
             <Route path={AppRouter.Favorites}
               element={
-                <PrivateRoute status={authStatus}>
+                <PrivateRoute status={isAuth}>
                   <Favorites/>
                 </PrivateRoute>
               }
@@ -48,6 +48,7 @@ export default function App() {
             <Route path={AppRouter.Login } element={<Login/>}/>
             <Route path={AppRouter.Offer } element={<Offer/>}/>
             <Route path='*' element={<Page404/>}/>
+            <Route path={AppRouter.NotFound} element={<Page404/>}/>
           </Route>
         </Routes>
       </HelmetProvider>

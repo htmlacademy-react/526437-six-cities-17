@@ -1,5 +1,5 @@
-import { TCity, TLocation } from './cityTypes';
-import { TUser } from './userTypes';
+import { TCity, TLocation } from './city-types';
+import { TUser } from './user-types';
 
 
 export interface TOffer {

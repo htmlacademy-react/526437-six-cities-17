@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppRouter, NameSpace} from '../../constant';
-import {OfferProcess} from '../../types/newStateTypes';
+import { NameSpace} from '../../constant';
+import {OfferProcess} from '../../types/state-types';
 import {fetchOffers,
   fetchFavoriteOffers,
   fetchOffer,
   fetchComments,
   fetchNearByOffers,
   postComment,
-  fetchFavoriteStatus} from '../actions/apiActions';
-import {convertCitiesById} from '../../helpers/convertCitiesById';
-import {setCities} from '../../helpers/setCities';
-import { TCity } from '../../types/cityTypes';
+  fetchFavoriteStatus} from '../actions/api-actions';
+import {convertCitiesById} from '../../helpers/convert-cities-by-id';
+import {setCities} from '../../helpers/set-cities';
+import { TCity } from '../../types/city-types';
 
 
 const initialState: OfferProcess = {
@@ -71,8 +71,6 @@ export const offerProcess = createSlice({
         state.selectedCity = action.payload.city;
       })
       .addCase(fetchOffer.rejected, ()=> {
-        const url = window.location.hostname;
-        window.location.replace(`${url}${AppRouter.NotFound}`);
 
       })
       .addCase(fetchComments.fulfilled, (state, action) => {

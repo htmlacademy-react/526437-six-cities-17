@@ -1,12 +1,12 @@
 
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { RootState } from '../../types/rootStateTypes';
-import CardsList from '../../components/CardsList';
-import Map from '../../components/Map';
-import CityList from '../../components/CityList';
-import SortSelect from '../../components/SortSelect';
-import EmptyOffers from '../../components/EmptyOffers';
+import { RootState } from '../../types/root-state-types';
+import CardsList from '../../components/cards-list';
+import Map from '../../components/Map.tsx';
+import CityList from '../../components/city-list';
+import SortSelect from '../../components/sort-select';
+import EmptyOffers from '../../components/empty-offers';
 import { store } from '../../store';
 import { SORTITEMS } from '../../constant';
 

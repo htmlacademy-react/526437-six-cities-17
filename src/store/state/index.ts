@@ -1,6 +1,6 @@
-import {TOffer, TOfferDetails, TReviewOffer} from '../../types/offerTypes';
-import {TCity} from '../../types/cityTypes';
-import {TUser} from '../../types/userTypes';
+import {TOffer, TOfferDetails, TReviewOffer} from '../../types/offer-types';
+import {TCity} from '../../types/city-types';
+import {TUser} from '../../types/user-types';
 
 interface State {
     offers: TOffer[];

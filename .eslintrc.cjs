@@ -22,6 +22,7 @@ module.exports = {
       files: ['*test*'],
       rules: {
         '@typescript-eslint/unbound-method': 'off',
+        "@react-hooks/rules-of-hooks": "off",
         "@typescript-eslint/no-misused-promises": [
           "error",
           {

@@ -1,8 +1,8 @@
 
 import { Link } from 'react-router-dom';
-import { TOffer} from '../types/offerTypes';
+import { TOffer} from '../types/offer-types';
 import CSS from 'csstype';
-import {fetchFavoriteStatus, fetchFavoriteOffers} from '../store/actions/apiActions';
+import {fetchFavoriteStatus, fetchFavoriteOffers} from '../store/actions/api-actions';
 import {dispatchNearByOfferToFavorite} from '../store/offerProcess';
 import { store } from '../store';
 

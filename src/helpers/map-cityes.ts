@@ -1,4 +1,4 @@
-import { TOffer, TFavorites } from '../types/offerTypes';
+import { TOffer, TFavorites } from '../types/offer-types';
 
 
 export default function mapCityes(offers: TOffer[]){
