@@ -4,6 +4,7 @@ import {NameSpace,
 } from '../../constant';
 import {UserProcess} from '../../types/state-types';
 import {fetchCheckAuth, fetchLogin, fetchSignOutAction} from '../actions/api-actions';
+import { toast } from 'react-toastify';
 
 
 const initialState: UserProcess = {
@@ -42,7 +43,8 @@ export const userProcess = createSlice({
         const token = '';
         window.localStorage.setItem('token', token);
         state.userInfo = initialState.userInfo;
-        state.authorizationStatus = true;
+        state.authorizationStatus = false;
+        toast('Пароль должен содержать минимум одну цифру и одну латинскую букву');
       })
       .addCase(fetchSignOutAction.fulfilled, () => {
         window.localStorage.setItem('token', '');

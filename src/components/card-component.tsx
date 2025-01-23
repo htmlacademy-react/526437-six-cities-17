@@ -1,10 +1,13 @@
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { TOffer} from '../types/offer-types';
 import CSS from 'csstype';
 import {fetchFavoriteStatus, fetchFavoriteOffers} from '../store/actions/api-actions';
 import {dispatchNearByOfferToFavorite} from '../store/offerProcess';
-import { store } from '../store';
+import { authStatus } from '../store/userProcess/selector';
+import { RootState, store } from '../store';
+import { useSelector } from 'react-redux';
+import { AppRouter } from '../constant';
 
 type TProps = {
   card: TOffer;
@@ -17,8 +20,8 @@ export default function CardComponent(props: TProps) {
   const placeCardStyle: CSS.Properties = {
     position: 'relative'
   };
-
-
+  const isAuth = useSelector((state: RootState) =>(authStatus(state)));
+  const navigate = useNavigate();
   const {
     previewImage,
     isPremium,
@@ -31,10 +34,14 @@ export default function CardComponent(props: TProps) {
   const {cardType} = props;
 
   const handleChangeStatus = async(status: number) => {
-    const payload = {offerId: id, status: status};
-    await store.dispatch(fetchFavoriteStatus(payload));
-    store.dispatch(dispatchNearByOfferToFavorite({id}));
-    await store.dispatch(fetchFavoriteOffers());
+    if(isAuth){
+      const payload = {offerId: id, status: status};
+      await store.dispatch(fetchFavoriteStatus(payload));
+      store.dispatch(dispatchNearByOfferToFavorite({id}));
+      await store.dispatch(fetchFavoriteOffers());
+    }else {
+      navigate({pathname: AppRouter.Login});
+    }
   };
   const ratingWidth = 100 / 5 * rating;
 

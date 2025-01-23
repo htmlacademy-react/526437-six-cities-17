@@ -6,6 +6,7 @@ import {dispatchSelectedCity} from '../../store/offerProcess';
 import {fetchFavoriteStatus, fetchFavoriteOffers} from '../../store/actions/api-actions';
 import { store } from '../../store';
 import mapCityes from '../../helpers/map-cityes';
+
 import { useMemo } from 'react';
 
 
@@ -20,6 +21,7 @@ export default function Favorites() {
   };
 
   const sortedCardByCity:TFavorites = useMemo(()=> mapCityes(favoriteOffers), [favoriteOffers]);
+
   return (
     <div className="page">
       <main className="page__main page__main--favorites">
@@ -97,7 +99,7 @@ export default function Favorites() {
                 ))
               }
             </ul>
-            {favoriteOffers.length === 0 ? 'NO OFFERS ' : ''}
+            {favoriteOffers.length === 0 ? 'Nothing yet saved ' : ''}
           </section>
         </div>
       </main>

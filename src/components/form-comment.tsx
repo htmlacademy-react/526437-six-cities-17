@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { postComment } from '../store/actions/api-actions';
 import { store } from '../store';
+import { ToastContainer } from 'react-toastify';
 
 type TProps = {
   offerId: string;
@@ -11,6 +12,7 @@ interface TextAreaValueElement extends HTMLElement {
 
 export default function FormComment(props: TProps){
 
+
   const [isAbleButton, setAbleButton] = useState(false);
 
   const {offerId} = props;
@@ -18,6 +20,7 @@ export default function FormComment(props: TProps){
     rating: '',
     comment: ''
   });
+
 
   const checkDisabled = () =>{
     if(form.rating && form.comment.length >= 50){
@@ -27,12 +30,14 @@ export default function FormComment(props: TProps){
     }
   };
 
+  useEffect(()=> {
+    checkDisabled();
+  }, [form.comment, form.rating]);
   const handlerCommentForm = (event: React.ChangeEvent<HTMLElement>) => {
     const {value} = event.currentTarget as never;
     setForm({ ...form,
       comment: value
     });
-    checkDisabled();
   };
 
   const arCor = [5,4,3,2,1];
@@ -40,11 +45,9 @@ export default function FormComment(props: TProps){
     setForm({
       ...form,
       rating : ev.currentTarget.value});
-    checkDisabled();
   };
 
   const handlePost = () =>{
-
     const args = {
       offerId: offerId,
       comment: form.comment,
@@ -52,6 +55,7 @@ export default function FormComment(props: TProps){
     };
 
     if(isAbleButton){
+      setAbleButton(false);
       store.dispatch(postComment(args));
       setForm({rating: '', comment: ''});
 
@@ -60,7 +64,6 @@ export default function FormComment(props: TProps){
         el.value = '';
       }
     }
-    checkDisabled();
   };
 
   const css = '.disabled { background-color: grey;}';
@@ -68,6 +71,7 @@ export default function FormComment(props: TProps){
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
+      <ToastContainer />
       <div className="reviews__rating-form form__rating">
         {arCor.map((el) => (
           <span key={el}>
@@ -87,6 +91,7 @@ export default function FormComment(props: TProps){
 
       <textarea onChange={handlerCommentForm}
         className="reviews__textarea form__textarea"
+        maxLength={300}
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"

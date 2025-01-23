@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './root-reducer';
 import createApi from '../services/api';
 
-import {redirectMilleware} from '../middleware';
+// import {redirectMilleware} from '../middleware';
 
 
 const api = createApi();
@@ -16,7 +16,8 @@ export const store = configureStore(
         thunk: {
           extraArgument: api,
         },
-      }).concat(redirectMilleware),
+      })
+      // .concat(redirectMilleware),
   }
 );
 

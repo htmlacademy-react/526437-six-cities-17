@@ -11,6 +11,7 @@ import {fetchOffers,
 import {convertCitiesById} from '../../helpers/convert-cities-by-id';
 import {setCities} from '../../helpers/set-cities';
 import { TCity } from '../../types/city-types';
+import { toast } from 'react-toastify';
 
 
 const initialState: OfferProcess = {
@@ -70,9 +71,8 @@ export const offerProcess = createSlice({
         state.currentOffer = action.payload;
         state.selectedCity = action.payload.city;
       })
-      .addCase(fetchOffer.rejected, ()=> {
-
-      })
+      // .addCase(fetchOffer.rejected, ()=> {
+      // })
       .addCase(fetchComments.fulfilled, (state, action) => {
         state.currentOfferComments = action.payload;
       })
@@ -85,7 +85,11 @@ export const offerProcess = createSlice({
         state.nearByOffers = offers;
       })
       .addCase(postComment.fulfilled, (state, action) => {
+        toast('Коммент успешно отправлен');
         state.currentOfferComments = [...state.currentOfferComments, action.payload];
+      })
+      .addCase(postComment.rejected, (_, action) => {
+        toast(`Ошибка отправки формы ${action.error.message}`);
       })
       .addCase(fetchFavoriteStatus.fulfilled, (state, action) => {
         const offer = state.offers.find((of)=> of.id === action.payload.id);
