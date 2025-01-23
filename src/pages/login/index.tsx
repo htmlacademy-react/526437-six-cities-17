@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {store} from '../../store';
 import { fetchLogin } from '../../store/actions/api-actions';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -13,14 +13,23 @@ import { AppRouter } from '../../constant';
 
 export default function Login() {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-
   const status = useSelector((state: RootState) =>(authStatus(state)));
   const cities = useSelector((state: RootState) => state.OFFER.cityes);
   const randomCity = Math.round(Math.random() * cities.length);
   const path = searchParams.get('next');
+  const valid = useRef(false);
+
+  const validEmail = (email: string) =>String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    ) || false;
+  const validPass = (pass: string) =>String(pass)
+    .toLowerCase()
+    .match(/^(?=.*[0-9])(?=.*[a-z])(?!.* ).{2,16}$/
+    ) || false;
   const handleSetCity = (city: TCity) => {
     dispatch(dispatchSelectedCity(city));
   };
@@ -60,6 +69,16 @@ export default function Login() {
     });
   };
 
+  useEffect(()=>{
+    const email = Boolean(validEmail(form.email));
+    const pass = Boolean(validPass(form.password));
+    if(email && pass){
+      valid.current = true;
+    }else{
+      valid.current = false;
+    }
+  }, [form.email, form.password]);
+
 
   const handleSubmitLoginForm = async() => {
     const goTo = '/';
@@ -94,14 +113,17 @@ export default function Login() {
                   type="password"
                   name="password"
                   placeholder="Password"
+                  maxLength={16}
                   required
                 />
               </div>
-              <div onClick={() => {
-                void handleSubmitLoginForm();
-              }} className="login__submit form__submit button"
+              <button
+                disabled={!valid.current}
+                onClick={() => {
+                  void handleSubmitLoginForm();
+                }} className="login__submit form__submit button"
               >Sign in
-              </div>
+              </button>
             </div>
           </section>
           <section className="locations locations--login locations--current">
