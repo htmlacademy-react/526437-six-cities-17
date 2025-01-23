@@ -21,6 +21,11 @@ export default function Login() {
   const path = searchParams.get('next');
   const valid = useRef(false);
 
+  const [form, setForm] = useState({
+    email: '',
+    password: ''
+  });
+
   const validEmail = (email: string) =>String(email)
     .toLowerCase()
     .match(
@@ -33,6 +38,25 @@ export default function Login() {
   const handleSetCity = (city: TCity) => {
     dispatch(dispatchSelectedCity(city));
   };
+  const handleSubmitLoginForm = async() => {
+    const goTo = '/';
+    await store.dispatch(fetchLogin(form));
+    const isAuth = store.getState().USER.authorizationStatus;
+    if (isAuth){
+      navigate(goTo);
+    }
+
+  };
+
+  useEffect(()=> {
+    const listener = () => {
+      if(valid.current) {
+        handleSubmitLoginForm();
+      }
+    };
+    window.addEventListener('keypress', listener);
+    return () => window.removeEventListener('keypress', listener);
+  },);
 
   useEffect(() => {
     if (status) {
@@ -47,11 +71,6 @@ export default function Login() {
       }
     }
   }, [status, path, navigate]);
-
-  const [form, setForm] = useState({
-    email: '',
-    password: ''
-  });
 
 
   const setEmail = (e: React.ChangeEvent<HTMLElement>) => {
@@ -80,15 +99,6 @@ export default function Login() {
   }, [form.email, form.password]);
 
 
-  const handleSubmitLoginForm = async() => {
-    const goTo = '/';
-    await store.dispatch(fetchLogin(form));
-    const isAuth = store.getState().USER.authorizationStatus;
-    if (isAuth){
-      navigate(goTo);
-    }
-
-  };
   return (
     <div className="page page--gray page--login">
       <ToastContainer/>
@@ -99,7 +109,9 @@ export default function Login() {
             <div className="login__form form" >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input onChange={setEmail} className="login__input form__input"
+                <input onChange={setEmail}
+                  className="login__input form__input"
+                  id="email"
                   type="email"
                   name="email"
                   placeholder="Email"
@@ -111,6 +123,7 @@ export default function Login() {
                 <input onChange={setPassWord}
                   className="login__input form__input"
                   type="password"
+                  id="pass"
                   name="password"
                   placeholder="Password"
                   maxLength={16}

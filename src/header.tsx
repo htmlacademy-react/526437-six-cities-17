@@ -50,7 +50,7 @@ export default function Header(){
               </ul> :
               <ul>
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRouter.Login}>
+                  <Link className="header__nav-link header__nav-link--profile header__login header__signout" to={AppRouter.Login}>
              Sign in
                   </Link>
                 </li>
