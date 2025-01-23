@@ -49,8 +49,9 @@ export default function Login() {
   };
 
   useEffect(()=> {
-    const listener = () => {
-      if(valid.current) {
+    const listener = (e: KeyboardEvent) => {
+      const enter = e.code === 'Enter';
+      if(valid.current && enter) {
         handleSubmitLoginForm();
       }
     };
