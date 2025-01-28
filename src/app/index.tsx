@@ -31,6 +31,11 @@ export default function App() {
       }
     });
   }, [isAuth]);
+  useEffect(()=> {
+    if(isAuth){
+      store.dispatch(fetchFavoriteOffers());
+    }
+  }, [isAuth]);
 
 
   return (
