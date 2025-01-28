@@ -24,8 +24,8 @@ export const userProcess = createSlice({
   reducers: {
     dispatchDeleteLogin: ((state) => {
       window.localStorage.removeItem('token');
+      state.userInfo = initialState.userInfo;
       state.authorizationStatus = false;
-      // state = initialState;
     })
   },
   extraReducers(builder) {
@@ -35,8 +35,8 @@ export const userProcess = createSlice({
         state.userInfo = action.payload;
       })
       .addCase(fetchCheckAuth.rejected, (state) => {
+        state.userInfo = initialState.userInfo;
         state.authorizationStatus = false;
-        // state = initialState;
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         const token = action.payload.token;
@@ -47,16 +47,18 @@ export const userProcess = createSlice({
         state.authorizationStatus = true;
       })
       .addCase(fetchLogin.rejected, (state) => {
-
         state.userInfo = initialState.userInfo;
         state.authorizationStatus = false;
         toast('Пароль должен содержать минимум одну цифру и одну латинскую букву');
       })
-      .addCase(fetchSignOutAction.fulfilled, () => {
-
+      .addCase(fetchSignOutAction.fulfilled, (state) => {
+        state.authorizationStatus = false;
+      })
+      .addCase(fetchSignOutAction.rejected, (state) => {
+        state.authorizationStatus = false;
       });
   }
 });
 
-export const {dispatchDeleteLogin} = userProcess.actions;
+export const { dispatchDeleteLogin } = userProcess.actions;
 
