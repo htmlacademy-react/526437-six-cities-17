@@ -64,6 +64,8 @@ export default function IndexPage() {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
+
+
             <section className="cities__places places">
               <SortSelect
                 selectedItem={activeSortSelect}
@@ -72,10 +74,9 @@ export default function IndexPage() {
               />
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offers.length}
-                places to stay in
-                {selectedCity.name}
+                {`${offers.length || undefined} ${offers.length >= 2 ? 'places' : 'place'} to stay in ${selectedCity.name}`}
               </b>
+
               {!loaded ?
                 <Loader/>
                 :
@@ -89,13 +90,15 @@ export default function IndexPage() {
                   </div> :
                   <EmptyOffers/>}
             </section>
+
+            {offers && offers.length &&
             <div className="cities__right-section">
               <Map
                 city={selectedCity}
                 points={offersPoints}
                 activeCard={activeCard}
               />
-            </div>
+            </div>}
           </div>
         </div>
       </main>

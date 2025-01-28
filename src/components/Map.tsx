@@ -1,5 +1,5 @@
 import {useRef} from 'react';
-import leaflet from 'leaflet';
+import leaflet, { layerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../hooks/use-map';
 import { TCity, TLocation } from '../types/city-types';
@@ -32,6 +32,7 @@ export default function Map({city, points, activeCard}: TProps) {
 
   useEffect(() => {
     if (map) {
+      const layer = layerGroup().addTo(map);
       points.forEach((point) => {
         leaflet
           .marker({
@@ -40,17 +41,19 @@ export default function Map({city, points, activeCard}: TProps) {
           }, {
             icon: activeCard === point.id ? currentCustomIcon : defaultCustomIcon,
           })
-          .addTo(map);
+          .addTo(layer);
       });
+      return () => {
+        map.removeLayer(layer);
+      };
     }
   }, [
     map,
     points,
-    defaultCustomIcon,
     activeCard,
-    currentCustomIcon
+    currentCustomIcon,
+    defaultCustomIcon
   ]);
-
   return (
 
     <div

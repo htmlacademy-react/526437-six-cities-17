@@ -8,6 +8,7 @@ import { authStatus } from '../store/userProcess/selector';
 import { RootState, store } from '../store';
 import { useSelector } from 'react-redux';
 import { AppRouter } from '../constant';
+import classNames from 'classnames';
 
 type TProps = {
   card: TOffer;
@@ -30,6 +31,7 @@ export default function CardComponent(props: TProps) {
     rating,
     title,
     id,
+    type
   } = props.card;
   const {cardType} = props;
 
@@ -43,29 +45,38 @@ export default function CardComponent(props: TProps) {
       navigate({pathname: AppRouter.Login});
     }
   };
-  const ratingWidth = 100 / 5 * rating;
+  const ratingWidth = 100 / 5 * Math.round(rating);
+
+  const buttonFavoriteClasses = classNames({
+    'place-card__bookmark-button': true,
+    'button': true,
+    'place-card__bookmark-button--active':isFavorite
+  });
 
 
   return (
-    <article style={placeCardStyle} className={`${cardType}__card place__card`} onMouseEnter={() => props.onMouseMove(id)}
+    <article style={placeCardStyle}
+      className={`${cardType}__card place-card`}
+      onMouseEnter={() => props.onMouseMove(id)}
+      onMouseLeave={() => props.onMouseMove('0')}
       id={id}
     >
       {isPremium ?
         <div className="place-card__mark">
           <span>Premium</span>
         </div> : null}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${cardType}__image-wrapper ${cardType}-card__image-wrapper`}>
         <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className={`${cardType}-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€ {price}</b>
+            <b className="place-card__price-value">€{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button className={buttonFavoriteClasses} type="button" >
             {isFavorite ?
               <svg onClick={() => {
                 void handleChangeStatus(0);
@@ -91,7 +102,7 @@ export default function CardComponent(props: TProps) {
         <h2 className="place-card__name">
           <Link to={`offer/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );

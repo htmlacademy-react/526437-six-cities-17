@@ -1,20 +1,29 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {AppRouter} from './constant';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { store } from './store';
-import {fetchCheckAuth, fetchSignOutAction} from './store/actions/api-actions';
+import {fetchSignOutAction, fetchCheckAuth} from './store/actions/api-actions';
+import {dispatchDeleteLogin} from './store/userProcess';
 import { authStatus } from './store/userProcess/selector';
+import { useEffect } from 'react';
 
 
 export default function Header(){
   const isAuth = useSelector((state: RootState) =>(authStatus(state)));
+  const showAuth = useSelector((state: RootState) =>(authStatus(state)));
+  const navigate = useNavigate();
   const user = useSelector((state: RootState)=> state.USER.userInfo);
   const favoriteOffersLength = useSelector((state: RootState) => state.OFFER.favoriteOffers).length;
   const signOut = async() => {
     await store.dispatch(fetchSignOutAction());
-    await store.dispatch(fetchCheckAuth());
+    store.dispatch(dispatchDeleteLogin());
+    navigate({pathname: AppRouter.Root});
   };
+
+  useEffect(()=> {
+    // store.dispatch(fetchCheckAuth());
+  }, [isAuth]);
 
   return (
     <header className="header">
@@ -26,7 +35,7 @@ export default function Header(){
             </Link>
           </div>
           <nav className="header__nav">
-            {isAuth ?
+            {showAuth ?
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
                   <Link className="header__nav-link header__nav-link--profile" to={AppRouter.Favorites}>
@@ -39,18 +48,19 @@ export default function Header(){
                 </li>
 
                 <li className="header__nav-item">
-                  <Link className="header__nav-link" to={AppRouter.Root}
+                  <div className="header__nav-link header__signout "
+                    style={{cursor: 'pointer'}}
                     onClick={() => {
-                      void signOut();
+                      signOut();
                     }}
                   >
-                    <span className="header__signout">Sign out</span>
-                  </Link>
+                    Sign out
+                  </div>
                 </li>
               </ul> :
               <ul>
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile header__login header__signout" to={AppRouter.Login}>
+                  <Link className="header__nav-link header__nav-link--profile header__login" to={AppRouter.Login}>
              Sign in
                   </Link>
                 </li>

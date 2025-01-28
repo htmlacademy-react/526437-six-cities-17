@@ -19,16 +19,24 @@ import { authStatus } from '../store/userProcess/selector';
 
 export default function App() {
   const isAuth = useSelector((state: RootState) =>(authStatus(state)));
-  useEffect(() => {
-    store.dispatch(fetchOffers());
-    store.dispatch(fetchCheckAuth());
-  });
 
-  useEffect(()=> {
-    if(isAuth){
-      store.dispatch(fetchFavoriteOffers());
-    }
+  useEffect(() => {
+    const getData = async() => {
+      await store.dispatch(fetchOffers());
+      await store.dispatch(fetchCheckAuth());
+    };
+    getData().then(()=> {
+      if(isAuth){
+        store.dispatch(fetchFavoriteOffers());
+      }
+    });
   }, [isAuth]);
+
+  // useEffect(()=> {
+  //   if(isAuth){
+  //     store.dispatch(fetchFavoriteOffers());
+  //   }
+  // }, [isAuth]);
 
 
   return (

@@ -6,9 +6,10 @@ type TProps = {
   }
 export default function ReviewList(props: TProps){
   const {reviewList} = props;
+  const sortedReviews = reviewList.toSorted((review1, review2) => Date.parse(review2.date) - Date.parse(review1.date)).slice(0,10);
   return (
     <ul className="reviews__list">
-      {reviewList.slice(1,11).map((el: TReviewOffer) => <ReviewItem review={el} key={el.id}/>)}
+      {sortedReviews.map((el: TReviewOffer) => <ReviewItem review={el} key={el.id}/>)}
 
     </ul>
   );

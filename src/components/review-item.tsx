@@ -1,13 +1,14 @@
 
 
 import {TReviewOffer} from '../types/offer-types';
+
 type TProps = {
     review: TReviewOffer;
 }
 export default function ReviewItem(props: TProps){
   const {review} = props;
+  const parsedDate = (date: string) => new Date(date).toLocaleDateString('en-US', { month: 'long', year: 'numeric'});
   const ratingWidth = 100 / 5 * review.rating;
-
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -30,7 +31,7 @@ export default function ReviewItem(props: TProps){
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
+        <time className="reviews__time" dateTime="2019-04-24">{parsedDate(review.date)}</time>
       </div>
     </li>
   );

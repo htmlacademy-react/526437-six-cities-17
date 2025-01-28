@@ -20,17 +20,18 @@ export default function CityList(props: City) {
 
   return (
     <ul className="locations__list tabs__list">
-      {cityes.map((x) =>
+      {cityes.map((x,
+      ) =>
         (
-          <li className="locations__item" key={x.name} >
-            <div style={LocationStyle}
+          <li style={LocationStyle} className={'locations__item'} key={x.name}>
+            <span style={LocationStyle}
               onClick={()=> dispatch(dispatchSelectedCity(x))}
-              className={`locations__item-link tabs__item${x.name === activeCity.name
-                ? '--active'
+              className={`locations__item-link tabs__item ${x.name === activeCity.name
+                ? 'tabs__item--active'
                 : ''}`}
             >
-              <span>{x.name} </span>
-            </div>
+              <span>{x.name}</span>
+            </span>
           </li>))}
     </ul>
   );

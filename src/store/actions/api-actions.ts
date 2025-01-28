@@ -30,14 +30,9 @@ export const fetchCheckAuth = createAsyncThunk<TUser, undefined,
   dispatch: AppDispatch; extra: AxiosInstance;
 }>('CHECK_AUTH',
   async (_args, { extra: api}) => {
-    // try{
-    const token: string | null = window.localStorage.getItem('token');
-    api.defaults.headers.common['X-Token'] = `${token}` || '';
 
     const {data} = await api.get<TUser>('/six-cities/login');
-
     return data;
-
   }
 );
 
@@ -129,7 +124,6 @@ undefined,
 }>('SIGN_OUT',
   async (_args, { extra: api}) => {
     await api.delete('/six-cities/logout');
-
   }
 );
 
