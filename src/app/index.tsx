@@ -11,7 +11,6 @@ import {store} from '../store';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 import {fetchOffers, fetchCheckAuth, fetchFavoriteOffers} from '../store/actions/api-actions';
-// import {rootReducer} from '../store/rootReducer';
 import { useSelector } from 'react-redux';
 import { RootState } from '../types/root-state-types';
 import { authStatus } from '../store/userProcess/selector';
@@ -19,11 +18,12 @@ import { authStatus } from '../store/userProcess/selector';
 
 export default function App() {
   const isAuth = useSelector((state: RootState) =>(authStatus(state)));
-
   useEffect(() => {
     const getData = async() => {
       await store.dispatch(fetchOffers());
-      await store.dispatch(fetchCheckAuth());
+      if(!isAuth){
+        await store.dispatch(fetchCheckAuth());
+      }
     };
     getData().then(()=> {
       if(isAuth){
@@ -31,12 +31,6 @@ export default function App() {
       }
     });
   }, [isAuth]);
-
-  // useEffect(()=> {
-  //   if(isAuth){
-  //     store.dispatch(fetchFavoriteOffers());
-  //   }
-  // }, [isAuth]);
 
 
   return (
