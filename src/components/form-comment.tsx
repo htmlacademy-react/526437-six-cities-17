@@ -1,111 +1,123 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, memo, useEffect, useState } from 'react';
+import { Comment, Rating, RATINGS } from '../constant';
+import { useSelector } from 'react-redux';
+import { RootState, store } from '../store';
 import { postComment } from '../store/actions/api-actions';
-import { store } from '../store';
 
-type TProps = {
-  offerId: string;
-}
-interface TextAreaValueElement extends HTMLElement {
-  value: string;
-}
+const initFormData = {
+  rating: 0,
+  comment: '',
+};
 
-export default function FormComment(props: TProps){
+function OfferReviewsForm() {
+  const [formData, setFormData] = useState(initFormData);
+  const [checkedRating, setCheckedRating] = useState({isChecked: ''});
+  const [isFormDisabled, setFormDisabled] = useState(false);
+  const isFormSending = useSelector((state: RootState) => state.OFFER.commentPosted);
+  const hasSubmitError = useSelector((state: RootState) => state.OFFER.commentPostedError);
+  const offer = useSelector((state: RootState) => state.OFFER.currentOffer);
 
-  const [isAbleButton, setAbleButton] = useState(false);
-
-  const {offerId} = props;
-  const [form, setForm] = useState({
-    rating: '',
-    comment: ''
-  });
-
-  const checkDisabled = () =>{
-    if(form.rating && form.comment.length >= 50){
-      setAbleButton(true);
-    }else{
-      setAbleButton(false);
+  useEffect(() => {
+    setFormDisabled(isFormSending);
+    if (!isFormSending && !hasSubmitError) {
+      setFormData(initFormData);
+      setCheckedRating({isChecked: ''});
     }
-  };
+  }, [hasSubmitError, isFormSending]);
 
-  const handlerCommentForm = (event: React.ChangeEvent<HTMLElement>) => {
-    const {value} = event.currentTarget as never;
-    setForm({ ...form,
-      comment: value
+  const hasFormValidate = formData.rating > Rating.InitState
+    && formData.comment.length >= Comment.MinLength
+    && formData.comment.length < Comment.MaxLength;
+
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      rating: Number(evt.target.value)
     });
-    checkDisabled();
   };
 
-  const arCor = [5,4,3,2,1];
-  const clickRating = (ev: React.FormEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      rating : ev.currentTarget.value});
-    checkDisabled();
+  const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      comment: evt.target.value
+    });
   };
 
-  const handlePost = () =>{
-
-    const args = {
-      offerId: offerId,
-      comment: form.comment,
-      rating: Number(form.rating)
-    };
-
-    if(isAbleButton){
-      store.dispatch(postComment(args));
-      setForm({rating: '', comment: ''});
-
-      const el:TextAreaValueElement = document.getElementById('review') as TextAreaValueElement;
-      if (el) {
-        el.value = '';
-      }
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if (offer) {
+      store.dispatch(postComment({
+        offerId: offer.id,
+        comment: formData.comment,
+        rating: formData.rating
+      }));
     }
-    checkDisabled();
   };
-
-  const css = '.disabled { background-color: grey;}';
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={handleFormSubmit}
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {arCor.map((el) => (
-          <span key={el}>
-            <input onClick={clickRating}
-              className="form__rating-input visually-hidden"
-              name="rating"
-              value={el} id={`${el}-stars`}
-              type="radio"
-            />
-            <label htmlFor={`${el}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
-              <svg className="form__star-image" width="37" height="33">
-                <use xlinkHref="#icon-star"></use>
-              </svg>
-            </label>
-          </span>)) }
+        {
+          RATINGS.map(({ value, title }) => (
+            <Fragment key={title}>
+              <input
+                className="form__rating-input visually-hidden"
+                name="rating"
+                value={value}
+                id={`${value}-stars`}
+                type="radio"
+                onChange={handleRatingChange}
+                onClick={() => setCheckedRating({isChecked: title})}
+                checked={checkedRating.isChecked === title}
+                disabled={isFormDisabled}
+              />
+              <label
+                htmlFor={`${value}-stars`}
+                className="reviews__rating-label form__rating-label"
+                title={title}
+                aria-disabled={isFormDisabled}
+              >
+                <svg className="form__star-image" width="37" height="33">
+                  <use xlinkHref="#icon-star"></use>
+                </svg>
+              </label>
+            </Fragment>
+          ))
+        }
       </div>
 
-      <textarea onChange={handlerCommentForm}
+      <textarea
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        value={formData.comment}
+        onChange={handleTextareaChange}
+        disabled={isFormDisabled}
       >
       </textarea>
+
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set
-          <span className="reviews__star">rating</span>
-          and describe your stay with at least
-          <b className="reviews__text-amount">50 characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <div onClick={handlePost}
-          className={`reviews__submit form__submit button ${!isAbleButton ? 'disabled' : ''}`}
-        >
-          <style>{css}</style>
-          Submit
-        </div>
+
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled={!hasFormValidate || isFormDisabled}
+        >Submit
+        </button>
       </div>
     </form>
   );
 }
+
+const MemoizedOfferReviewsForm = memo(OfferReviewsForm);
+export default MemoizedOfferReviewsForm;

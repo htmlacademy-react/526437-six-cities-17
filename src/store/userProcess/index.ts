@@ -4,6 +4,7 @@ import {NameSpace,
 } from '../../constant';
 import {UserProcess} from '../../types/state-types';
 import {fetchCheckAuth, fetchLogin, fetchSignOutAction} from '../actions/api-actions';
+import { toast } from 'react-toastify';
 
 
 const initialState: UserProcess = {
@@ -20,7 +21,13 @@ const initialState: UserProcess = {
 export const userProcess = createSlice({
   name: NameSpace.User,
   initialState,
-  reducers: {},
+  reducers: {
+    dispatchDeleteLogin: ((state) => {
+      window.localStorage.removeItem('token');
+      state.userInfo = initialState.userInfo;
+      state.authorizationStatus = false;
+    })
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchCheckAuth.fulfilled, (state, action) => {
@@ -28,6 +35,7 @@ export const userProcess = createSlice({
         state.userInfo = action.payload;
       })
       .addCase(fetchCheckAuth.rejected, (state) => {
+        state.userInfo = initialState.userInfo;
         state.authorizationStatus = false;
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
@@ -39,16 +47,18 @@ export const userProcess = createSlice({
         state.authorizationStatus = true;
       })
       .addCase(fetchLogin.rejected, (state) => {
-        const token = '';
-        window.localStorage.setItem('token', token);
         state.userInfo = initialState.userInfo;
-        state.authorizationStatus = true;
+        state.authorizationStatus = false;
+        toast('Пароль должен содержать минимум одну цифру и одну латинскую букву');
       })
-      .addCase(fetchSignOutAction.fulfilled, () => {
-        window.localStorage.setItem('token', '');
+      .addCase(fetchSignOutAction.fulfilled, (state) => {
+        state.authorizationStatus = false;
+      })
+      .addCase(fetchSignOutAction.rejected, (state) => {
+        state.authorizationStatus = false;
       });
-
-
   }
 });
+
+export const { dispatchDeleteLogin } = userProcess.actions;
 

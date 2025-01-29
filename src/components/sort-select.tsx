@@ -45,21 +45,21 @@ export default function SortSelect(props: TProps){
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      {showSelect &&
-      <ul className="places__options places__options--custom places__options--opened">
-        {selectItems.map((item, index) =>
-          (
-            <li className={`places__option places__option${item.type === selectedItem.type
-              ? '--active'
-              : ''}`}
-            key={item.title}
-            tabIndex={index}
-            onClick={()=> handleClick(item.type)}
-            >
-              {item.title}
-            </li>)
-        )}
-      </ul>}
+      {showSelect ?
+        <ul className="places__options places__options--custom places__options--opened">
+          {selectItems.map((item, index) =>
+            (
+              <li className={`places__option places__option${item.type === selectedItem.type
+                ? '--active'
+                : ''}`}
+              key={item.title}
+              tabIndex={index}
+              onClick={()=> handleClick(item.type)}
+              >
+                {item.title}
+              </li>)
+          )}
+        </ul> : <ul className="places__options" style={{display: 'none'}}/>}
     </form>
   );
 

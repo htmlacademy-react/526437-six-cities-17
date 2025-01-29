@@ -13,6 +13,8 @@ export type CityProcess = {
     cityes: TCity[];
   }
 export type OfferProcess = {
+    commentPosted: boolean;
+    commentPostedError: boolean;
     loaded: boolean;
     offers: TOffer[];
     cityes: TCity[];

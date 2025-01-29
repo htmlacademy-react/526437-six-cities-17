@@ -26,10 +26,9 @@ export enum PrivateStatus {
     Unknown = 'UNKNOWN'
 }
 
-export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+export const URL_MARKER_DEFAULT = '../img/pin.svg';
 
-export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
-
+export const URL_MARKER_CURRENT = '../img/pin-active.svg';
 export const SORTITEMS: {title: string; type: string}[] = [
   {title: 'Popular', type: 'default'},
   {title: 'Price: low to high', type: 'low'},
@@ -38,3 +37,24 @@ export const SORTITEMS: {title: string; type: string}[] = [
 ];
 
 export const OFFER_COUNT = 3;
+
+export const RATINGS = [
+  {value: 5, title: 'perfect'},
+  {value: 4, title: 'good'},
+  {value: 3, title: 'not bad'},
+  {value: 2, title: 'badly'},
+  {value: 1, title: 'terribly'},
+];
+
+export const Comment = {
+  MinLength: 50,
+  MaxLength: 300,
+  MinCount: 0,
+  MaxCount: 10,
+  InitState: '',
+};
+
+export const Rating = {
+  InitState: 0,
+  Multiplier: 20,
+};

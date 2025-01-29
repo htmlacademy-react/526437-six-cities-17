@@ -21,7 +21,7 @@ export default function PrivateRoute(props: TPrivateRouteProps): JSX.Element{
         }).toString()
       });
     }
-  });
+  }, [status, navigate, location]);
   return (
     status ? children : <Navigate to={AppRouter.Login}/>
 
