@@ -3,14 +3,12 @@ import {AppRouter} from './constant';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { store } from './store';
-import {fetchSignOutAction, fetchCheckAuth} from './store/actions/api-actions';
+import {fetchSignOutAction} from './store/actions/api-actions';
 import {dispatchDeleteLogin} from './store/userProcess';
 import { authStatus } from './store/userProcess/selector';
-import { useEffect } from 'react';
 
 
 export default function Header(){
-  const isAuth = useSelector((state: RootState) =>(authStatus(state)));
   const showAuth = useSelector((state: RootState) =>(authStatus(state)));
   const navigate = useNavigate();
   const user = useSelector((state: RootState)=> state.USER.userInfo);
@@ -21,9 +19,6 @@ export default function Header(){
     navigate({pathname: AppRouter.Root});
   };
 
-  useEffect(()=> {
-    // store.dispatch(fetchCheckAuth());
-  }, [isAuth]);
 
   return (
     <header className="header">

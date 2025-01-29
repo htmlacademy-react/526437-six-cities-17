@@ -35,7 +35,6 @@ export default function Offer() {
   const nearByOffers = useSelector((state: RootState)=> state.OFFER.nearByOffers).slice(0,OFFER_COUNT);
 
   useSelector((state: RootState)=> state.OFFER.nearByOffers);
-  // .slice(0,OFFER_COUNT);
 
   const nearByOffersPoints = nearByOffers.map((item)=> item.location);
 
@@ -50,7 +49,6 @@ export default function Offer() {
   const handleChangeStatus = async(status: number) => {
     if(isAuth){
       setButtonDisable(true);
-      setButtonActiveClass(!buttonActiveClass);
       const payload = {offerId, status: status};
       await store.dispatch(fetchFavoriteStatus(payload));
       await store.dispatch(fetchOffer({offerId: offerId}));
@@ -67,6 +65,9 @@ export default function Offer() {
     store.dispatch(fetchOffer({offerId: offerId}));
 
   }, [offerId]);
+  useEffect(()=> {
+    setButtonActiveClass(currentOffer.isFavorite);
+  }, [buttonDisable, currentOffer.isFavorite]);
   return (
     <div className="page">
       {!loaded ? <Loader/>

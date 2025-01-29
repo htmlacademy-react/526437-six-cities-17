@@ -103,9 +103,18 @@ export const offerProcess = createSlice({
         toast(`Ошибка отправки формы ${action.error.message}`);
       })
       .addCase(fetchFavoriteStatus.fulfilled, (state, action) => {
+        const status = action.meta.arg.status;
         const offer = state.offers.find((of)=> of.id === action.payload.id);
         if(offer){
           offer.isFavorite = !offer.isFavorite;
+        }
+        switch (status) {
+          case 1:
+            state.favoriteOffers.push(action.payload);
+            break;
+          case 0:
+            state.favoriteOffers = state.favoriteOffers.filter((item) => item.id !== action.payload.id);
+            break;
         }
       });
   }
