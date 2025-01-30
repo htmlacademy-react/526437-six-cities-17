@@ -1,7 +1,7 @@
 import {combineReducers} from '@reduxjs/toolkit';
 import {NameSpace} from '../constant';
-import { userProcess } from './userProcess';
-import { offerProcess } from './offerProcess';
+import { userProcess } from './user/user-slice';
+import { offerProcess } from './offer/offer-slice';
 
 
 export const rootReducer = combineReducers({

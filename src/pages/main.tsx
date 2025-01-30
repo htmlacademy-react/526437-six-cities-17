@@ -1,15 +1,14 @@
 
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { RootState } from '../../types/root-state-types';
-import CardsList from '../../components/cards-list';
-import Map from '../../components/Map.tsx';
-import CityList from '../../components/city-list';
-import Loader from '../../components/loader.tsx';
-import SortSelect from '../../components/sort-select';
-import EmptyOffers from '../../components/empty-offers';
-import { store } from '../../store';
-import { SORTITEMS } from '../../constant';
+import { RootState } from '../types/root-state-types.tsx';
+import Map from '../components/map.tsx';
+import CityList from '../components/city-list.tsx';
+import Loader from '../components/loader.tsx';
+import SortSelect from '../components/sort-select.tsx';
+import { store } from '../store/index.ts';
+import { SORTITEMS } from '../constant.ts';
+import PlacesList from '../components/places-list.tsx';
 
 export default function IndexPage() {
 
@@ -80,15 +79,10 @@ export default function IndexPage() {
               {!loaded ?
                 <Loader/>
                 :
-                offers && offers.length ?
-                  <div className="cities__places-list places__list tabs__content" >
-                    <CardsList
-                      cardType="cities"
-                      offers={sortedOffers}
-                      onMouseMove={handleMouseMove}
-                    />
-                  </div> :
-                  <EmptyOffers/>}
+                <PlacesList cardType="cities"
+                  sortedOffers={sortedOffers}
+                  handleMouseMove={handleMouseMove}
+                />}
             </section>
 
             {offers && offers.length &&
