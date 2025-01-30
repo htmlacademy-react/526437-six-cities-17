@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import {store} from '../../store';
-import { fetchLogin } from '../../store/actions/api-actions';
+import {store} from '../store';
+import { fetchLogin } from '../store/actions/api-actions';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { authStatus } from '../../store/userProcess/selector';
-import { ToastContainer } from 'react-toastify';
-import {dispatchSelectedCity} from '../../store/offerProcess';
+import { authStatus } from '../store/user/selector';
 
-import { RootState } from '../../store';
-import { TCity } from '../../types/city-types';
-import { AppRouter } from '../../constant';
+import {dispatchSelectedCity} from '../store/offer/offer-slice';
+
+import { RootState } from '../store';
+import { TCity } from '../types/city-types';
+import { AppRouter } from '../constant';
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -102,7 +102,7 @@ export default function Login() {
 
   return (
     <div className="page page--gray page--login">
-      <ToastContainer/>
+
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">

@@ -1,13 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { TOffer, TFavorites } from '../../types/offer-types';
+import { TOffer, TFavorites } from '../types/offer-types';
 import { Link } from 'react-router-dom';
-import { AppRouter } from '../../constant';
-import {dispatchSelectedCity} from '../../store/offerProcess';
-import { store } from '../../store';
-import mapCityes from '../../helpers/map-cityes';
+import { AppRouter } from '../constant';
+import {dispatchSelectedCity} from '../store/offer/offer-slice';
+import { store } from '../store';
+import mapCityes from '../helpers/map-cityes';
 
 import { useMemo } from 'react';
-import CardsList from '../../components/cards-list';
+import CardsList from '../components/cards-list';
 
 
 export default function Favorites() {

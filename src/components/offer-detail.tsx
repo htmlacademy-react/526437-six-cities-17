@@ -2,23 +2,23 @@ import Page404 from '../pages/404-page';
 import { TOffer, TOfferDetails, TReviewOffer } from '../types/offer-types';
 import FormComment from '../components/form-comment';
 import ReviewList from '../components/review-list';
-import Map from '../components/Map';
+import Map from './map';
 import CardsList from '../components/cards-list';
 import { TCity, TLocation } from '../types/city-types';
 
 
 type TProps = {
-    currentOffer: TOfferDetails;
+    currentOffer: TOfferDetails | Record<string, never>;
     images: string[];
     buttonDisable: boolean;
-    buttonActiveClass: boolean;
+    buttonActiveClass: boolean| undefined;
     handleChangeStatus: (status: number) => void;
     ratingWidth: number;
     currentOfferReviews: TReviewOffer[];
     isAuth: boolean;
     selectedCity: TCity;
     nearByOffersPoints: TLocation[];
-    activeCard: string;
+    activeCard: string | undefined;
     handleMouseMove: (e: string) => void;
     nearByOffers: TOffer[];
 }

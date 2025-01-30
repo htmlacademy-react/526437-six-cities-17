@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import Loader from '../../components/loader';
-import OfferDetail from '../../components/offer-detail';
+import Loader from '../components/loader';
+import OfferDetail from '../components/offer-detail';
 
 import {
   fetchOffer,
@@ -8,14 +8,14 @@ import {
   fetchNearByOffers,
   fetchFavoriteStatus,
   fetchFavoriteOffers,
-} from '../../store/actions/api-actions';
+} from '../store/actions/api-actions';
 
 import {useLocation, useNavigate} from 'react-router-dom';
-import { RootState, store } from '../../store';
+import { RootState, store } from '../store';
 import { useSelector } from 'react-redux';
-import {AppRouter, OFFER_COUNT} from '../../constant';
-import { authStatus } from '../../store/userProcess/selector';
-import { TOffer } from '../../types/offer-types';
+import {AppRouter, OFFER_COUNT} from '../constant';
+import { authStatus } from '../store/user/selector';
+import { TOffer } from '../types/offer-types';
 export default function Offer() {
 
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function Offer() {
   const isAuth = useSelector((state: RootState) =>(authStatus(state)));
 
   const currentOffer = useSelector((state: RootState)=> state.OFFER.currentOffer);
-  const [buttonActiveClass, setButtonActiveClass] = useState(currentOffer.isFavorite);
+  const [buttonActiveClass, setButtonActiveClass] = useState<boolean|undefined>(currentOffer.isFavorite);
   const [buttonDisable, setButtonDisable] = useState(false);
   const currentOfferReviews = useSelector((state: RootState)=> state.OFFER.currentOfferComments);
   const selectedCity = useSelector((state: RootState)=> state.OFFER.selectedCity);

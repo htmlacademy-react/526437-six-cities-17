@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { store } from './store';
 import {fetchSignOutAction} from './store/actions/api-actions';
-import {dispatchDeleteLogin} from './store/userProcess';
-import { authStatus } from './store/userProcess/selector';
+import {dispatchDeleteLogin} from './store/user/user-slice';
+import { authStatus } from './store/user/selector';
 
 
 export default function Header(){

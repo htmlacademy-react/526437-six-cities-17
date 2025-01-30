@@ -1,4 +1,4 @@
-import IndexPage from '../pages/main/index';
+import IndexPage from '../pages/main';
 import Favorites from '../pages/favorites';
 import Login from '../pages/login';
 import Offer from '../pages/offer';
@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import {fetchOffers, fetchCheckAuth, fetchFavoriteOffers} from '../store/actions/api-actions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../types/root-state-types';
-import { authStatus } from '../store/userProcess/selector';
+import { authStatus } from '../store/user/selector';
 
 
 export default function App() {

@@ -1,6 +1,6 @@
 
 import {store} from '../store';
-import {dispatchSelectedCity} from '../store/offerProcess';
+import {dispatchSelectedCity} from '../store/offer/offer-slice';
 import { useDispatch } from 'react-redux';
 import { TCity } from '../types/city-types';
 import CSS from 'csstype';

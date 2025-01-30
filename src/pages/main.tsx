@@ -1,14 +1,14 @@
 
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { RootState } from '../../types/root-state-types';
-import Map from '../../components/Map.tsx';
-import CityList from '../../components/city-list';
-import Loader from '../../components/loader.tsx';
-import SortSelect from '../../components/sort-select';
-import { store } from '../../store';
-import { SORTITEMS } from '../../constant';
-import PlacesList from '../../components/places-list';
+import { RootState } from '../types/root-state-types.tsx';
+import Map from '../components/map.tsx';
+import CityList from '../components/city-list.tsx';
+import Loader from '../components/loader.tsx';
+import SortSelect from '../components/sort-select.tsx';
+import { store } from '../store/index.ts';
+import { SORTITEMS } from '../constant.ts';
+import PlacesList from '../components/places-list.tsx';
 
 export default function IndexPage() {
 
